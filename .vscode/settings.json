@@ -1,0 +1,7 @@
+{
+    "editor.defaultFormatter": "vscode.jake",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

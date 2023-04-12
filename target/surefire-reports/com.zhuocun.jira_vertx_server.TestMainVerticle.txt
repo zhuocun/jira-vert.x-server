@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.zhuocun.jira_vertx_server.TestMainVerticle
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.23 s - in com.zhuocun.jira_vertx_server.TestMainVerticle
