@@ -1,8 +1,8 @@
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/routes/UserRouter.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/routes/MainRouter.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/DBUtils.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/ServerLauncher.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/DBInitialiser.java
-/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/Launcher.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/controllers/UserController.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/PostgresUtils.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/config/EnvConfig.java
