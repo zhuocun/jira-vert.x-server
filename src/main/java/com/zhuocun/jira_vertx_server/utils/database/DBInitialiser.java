@@ -31,7 +31,7 @@ public class DBInitialiser {
             case POSTGRESQL:
                 return initPostgreSQL(config);
             case MONGODB:
-                return Future.failedFuture("Unknown database");
+                return initMongoDB(config);
             default:
                 return Future.failedFuture("Unknown database");
         }
@@ -58,7 +58,7 @@ public class DBInitialiser {
         });
     }
 
-    private Future<Void> initMongoDB() {
+    private Future<Object> initMongoDB(EnvConfig config) {
         // TODO: Implement MongoDB initialization logic
         return Future.failedFuture("MongoDB initialization not implemented");
     }
