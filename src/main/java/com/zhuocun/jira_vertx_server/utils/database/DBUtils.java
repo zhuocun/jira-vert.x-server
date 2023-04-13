@@ -12,7 +12,9 @@ import com.zhuocun.jira_vertx_server.constants.ErrorMsg;
 public class DBUtils {
 
     public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.findOne(reqBody, tableName);
             default:
@@ -21,7 +23,9 @@ public class DBUtils {
     }
 
     public static Future<Void> createItem(JsonObject item, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.createItem(item, tableName);
             default:
@@ -30,7 +34,9 @@ public class DBUtils {
     }
 
     public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.find(reqBody, tableName);
             default:
@@ -39,7 +45,9 @@ public class DBUtils {
     }
 
     public static Future<JsonObject> findById(String id, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.findById(id, tableName);
             default:
@@ -48,7 +56,9 @@ public class DBUtils {
     }
 
     public static Future<JsonObject> findByIdAndDelete(String id, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.findByIdAndDelete(id, tableName);
             default:
@@ -57,7 +67,9 @@ public class DBUtils {
     }
 
     public static Future<JsonObject> findByIdAndUpdate(String id, JsonObject update, String tableName) {
-        switch (EDatabase.valueOf(EnvConfig.DATABASE.toUpperCase())) {
+        EnvConfig config = new EnvConfig(".env");
+        String database = config.getProperty("DATABASE").toUpperCase();
+        switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
                 return PostgresUtils.findByIdAndUpdate(id, update, tableName);
             default:

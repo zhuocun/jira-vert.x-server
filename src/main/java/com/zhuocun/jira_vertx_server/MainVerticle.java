@@ -14,9 +14,7 @@ public class MainVerticle extends AbstractVerticle {
   public void start(Promise<Void> startPromise) {
     // Initialize the database
     DBInitialiser dbInitialiser = new DBInitialiser(vertx);
-    dbInitialiser.initDB(startPromise);
-
-    startPromise.future().compose(v -> {
+    dbInitialiser.initDB().compose(v -> {
       // Create the main router
       Router mainRouter = MainRouter.create(vertx);
 
@@ -40,4 +38,5 @@ public class MainVerticle extends AbstractVerticle {
       }
     });
   }
+
 }

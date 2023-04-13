@@ -1,6 +1,6 @@
 package com.zhuocun.jira_vertx_server.utils.database;
 
-import io.vertx.core.Promise;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.PemTrustOptions;
 import io.vertx.pgclient.PgConnectOptions;
@@ -24,22 +24,20 @@ public class DBInitialiser {
         this.vertx = vertx;
     }
 
-    public void initDB(Promise<Void> promise) {
+    public Future<Object> initDB() {
         EnvConfig config = new EnvConfig(".env");
         String database = config.getProperty("DATABASE").toUpperCase();
         switch (EDatabase.valueOf(database)) {
             case POSTGRESQL:
-                initPostgreSQL(promise, config);
-                break;
+                return initPostgreSQL(config);
             case MONGODB:
-                initMongoDB(promise);
-                break;
+                return Future.failedFuture("Unknown database");
             default:
-                promise.fail("Unknown database");
+                return Future.failedFuture("Unknown database");
         }
     }
 
-    private void initPostgreSQL(Promise<Void> promise, EnvConfig config) {
+    private Future<Object> initPostgreSQL(EnvConfig config) {
         PgConnectOptions connectOptions = new PgConnectOptions()
                 .setPort(Integer.parseInt(config.getProperty("POSTGRES_PORT")))
                 .setHost(config.getProperty("POSTGRES_HOST"))
@@ -51,19 +49,18 @@ public class DBInitialiser {
                         .addCertPath("certs/global-bundle.pem"));
         PoolOptions poolOptions = new PoolOptions().setMaxSize(10);
         postgresPool = PgPool.pool(vertx, connectOptions, poolOptions);
-        postgresPool.getConnection(ar -> {
-            if (ar.succeeded()) {
-                System.out.println("Connected to PostgreSQL database");
-            } else {
-                System.out.printf("Failed to connect to PostgreSQL database", ar.cause());
-                promise.fail(ar.cause());
-            }
+        return postgresPool.getConnection().compose(conn -> {
+            System.out.println("Connected to PostgreSQL database");
+            return Future.succeededFuture();
+        }).onFailure(cause -> {
+            System.out.printf("Failed to connect to PostgreSQL database", cause);
+            postgresPool.close();
         });
     }
 
-    private void initMongoDB(Promise<Void> promise) {
+    private Future<Void> initMongoDB() {
         // TODO: Implement MongoDB initialization logic
-        promise.fail("MongoDB initialization not implemented");
+        return Future.failedFuture("MongoDB initialization not implemented");
     }
 
 }
