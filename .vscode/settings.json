@@ -1,7 +1,14 @@
 {
-    "editor.defaultFormatter": "vscode.jake",
     "[java]": {
         "editor.defaultFormatter": "redhat.java"
     },
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "editor.defaultFormatter": "redhat.java",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 5000,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "java.format.enabled": true,
+    "editor.formatOnPaste": true,
+    "editor.fontSize": 14
 }
