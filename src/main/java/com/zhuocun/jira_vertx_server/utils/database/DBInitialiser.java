@@ -26,8 +26,6 @@ public class DBInitialiser {
 
     public Future<Object> initDB() {
         EnvConfig config = new EnvConfig(".env");
-        String db = DBUtils.getDBType();
-        System.out.println("Database type: " + db);
         switch (DBUtils.getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return initPostgreSQL(config);
