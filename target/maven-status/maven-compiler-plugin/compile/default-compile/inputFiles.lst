@@ -1,1 +1,5 @@
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/router/ApiRouter.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/Config.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/MainVerticle.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/dao/UserDao.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/model/User.java

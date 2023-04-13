@@ -24,3 +24,6 @@ hs_err_pid*
 
 # Apple
 .DS_Store
+
+# credentials
+.env
