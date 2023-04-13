@@ -1,5 +1,13 @@
-/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/router/ApiRouter.java
-/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/Config.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/routes/UserRouter.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/routes/MainRouter.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/DBUtils.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/DBInitialiser.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/Launcher.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/controllers/UserController.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/utils/database/PostgresUtils.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/config/EnvConfig.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/constants/ErrorMsg.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/constants/EDatabase.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/MainVerticle.java
-/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/dao/UserDao.java
-/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/model/User.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/services/UserService.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/com/zhuocun/jira_vertx_server/models/User.java
