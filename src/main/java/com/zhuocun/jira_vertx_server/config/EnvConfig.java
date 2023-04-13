@@ -7,7 +7,6 @@ import java.util.Properties;
 
 public class EnvConfig {
     private final Properties properties;
-    public static final String DATABASE = System.getenv("DATABASE");
 
     public EnvConfig(String envFilePath) {
         properties = new Properties();

@@ -9,7 +9,7 @@ import io.vertx.pgclient.SslMode;
 import io.vertx.sqlclient.PoolOptions;
 
 import com.zhuocun.jira_vertx_server.config.EnvConfig;
-import com.zhuocun.jira_vertx_server.constants.EDatabase;
+import com.zhuocun.jira_vertx_server.constants.DatabaseType;
 
 public class DBInitialiser {
 
@@ -26,11 +26,12 @@ public class DBInitialiser {
 
     public Future<Object> initDB() {
         EnvConfig config = new EnvConfig(".env");
-        String database = config.getProperty("DATABASE").toUpperCase();
-        switch (EDatabase.valueOf(database)) {
-            case POSTGRESQL:
+        String db = DBUtils.getDBType();
+        System.out.println("Database type: " + db);
+        switch (DBUtils.getDBType()) {
+            case DatabaseType.POSTGRESQL:
                 return initPostgreSQL(config);
-            case MONGODB:
+            case DatabaseType.MONGO_DB:
                 return initMongoDB(config);
             default:
                 return Future.failedFuture("Unknown database");

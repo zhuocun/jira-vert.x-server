@@ -33,10 +33,6 @@ public class User {
                 json.getString("updatedAt"));
     }
 
-    public User(String string, String string2, String string3, String string4, Object[] array, String string5,
-            String string6) {
-    }
-
     public JsonObject toJson() {
         JsonObject json = new JsonObject();
         json.put("_id", this._id);

@@ -1,4 +1,3 @@
-// UserController.java
 package com.zhuocun.jira_vertx_server.controllers;
 
 import io.vertx.core.json.JsonObject;
