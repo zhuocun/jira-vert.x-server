@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 
 public class MongoDBUtils {
 
+    private MongoDBUtils() {}
     // Replace this with your MongoDB client initialization
     // static MongoClient mongoClient = ...
 

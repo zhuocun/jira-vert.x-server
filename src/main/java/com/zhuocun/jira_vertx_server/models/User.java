@@ -3,7 +3,7 @@ package com.zhuocun.jira_vertx_server.models;
 import io.vertx.core.json.JsonObject;
 
 public class User {
-    private String _id;
+    private String id;
     private String username;
     private String email;
     private String password;
@@ -11,9 +11,10 @@ public class User {
     private String createdAt;
     private String updatedAt;
 
-    public User(String _id, String username, String email, String password, String[] likedProjects, String createdAt,
+    public User(String id, String username, String email, String password, String[] likedProjects,
+            String createdAt,
             String updatedAt) {
-        this._id = _id;
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -35,7 +36,7 @@ public class User {
 
     public JsonObject toJson() {
         JsonObject json = new JsonObject();
-        json.put("_id", this._id);
+        json.put("_id", this.id);
         json.put("username", this.username);
         json.put("email", this.email);
         json.put("password", this.password);
@@ -45,12 +46,12 @@ public class User {
         return json;
     }
 
-    public String get_id() {
-        return this._id;
+    public String getId() {
+        return this.id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

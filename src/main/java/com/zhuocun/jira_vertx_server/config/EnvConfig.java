@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import com.zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 public class EnvConfig {
     private final Properties properties;
@@ -13,7 +14,7 @@ public class EnvConfig {
         try (InputStream input = new FileInputStream(envFilePath)) {
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load .env file", e);
+            throw new MyRuntimeException("Failed to load .env file", e);
         }
     }
 

@@ -7,10 +7,12 @@ import com.zhuocun.jira_vertx_server.config.EnvConfig;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import com.zhuocun.jira_vertx_server.constants.DatabaseType;
-import com.zhuocun.jira_vertx_server.constants.ErrorMsg;
+import com.zhuocun.jira_vertx_server.constants.MyError;
+import com.zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 public class DBUtils {
 
+    private DBUtils() {}
     public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
@@ -20,7 +22,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.findOne(reqBody, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 
@@ -33,7 +35,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.createItem(item, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 
@@ -46,7 +48,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.find(reqBody, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 
@@ -59,7 +61,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.findById(id, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 
@@ -72,7 +74,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.findByIdAndDelete(id, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 
@@ -85,7 +87,7 @@ public class DBUtils {
             case DatabaseType.DYNAMO_DB:
                 return DynamoDBUtils.findByIdAndUpdate(id, update, tableName);
             default:
-                throw new Error(ErrorMsg.INVALID_DB);
+                throw new MyRuntimeException(MyError.INVALID_DB);
         }
     }
 

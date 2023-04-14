@@ -11,21 +11,20 @@ import java.util.stream.Collectors;
 
 public class UserService {
 
-    private final String TABLE_NAME = TableName.USER;
+    private static final String TABLE_NAME = TableName.USER;
 
     public Future<JsonObject> get(String userId) {
         return DBUtils.findById(userId, TABLE_NAME);
     }
 
     public Future<JsonObject> update(String userId, JsonObject updateData) {
-        return DBUtils.findById(userId, TABLE_NAME)
-                .compose(user -> {
-                    if (user != null) {
-                        return DBUtils.findByIdAndUpdate(userId, updateData, TABLE_NAME);
-                    } else {
-                        return Future.failedFuture("User not found");
-                    }
-                });
+        return DBUtils.findById(userId, TABLE_NAME).compose(user -> {
+            if (user != null) {
+                return DBUtils.findByIdAndUpdate(userId, updateData, TABLE_NAME);
+            } else {
+                return Future.failedFuture("User not found");
+            }
+        });
     }
 
     public Future<List<JsonObject>> getMembers() {
@@ -33,23 +32,20 @@ public class UserService {
     }
 
     public Future<JsonObject> switchLikeStatus(String userId, String projectId) {
-        return DBUtils.findById(userId, TABLE_NAME)
-                .compose(user -> {
-                    if (user != null) {
-                        List<String> likedProjects = user.getJsonArray("likedProjects")
-                                .stream()
-                                .map(Object::toString)
-                                .collect(Collectors.toList());
-                        if (likedProjects.contains(projectId)) {
-                            likedProjects.remove(projectId);
-                        } else {
-                            likedProjects.add(projectId);
-                        }
-                        JsonObject updateData = new JsonObject().put("likedProjects", likedProjects);
-                        return DBUtils.findByIdAndUpdate(userId, updateData, TABLE_NAME);
-                    } else {
-                        return Future.failedFuture("User not found");
-                    }
-                });
+        return DBUtils.findById(userId, TABLE_NAME).compose(user -> {
+            if (user != null) {
+                List<String> likedProjects = user.getJsonArray("likedProjects").stream()
+                        .map(Object::toString).collect(Collectors.toList());
+                if (likedProjects.contains(projectId)) {
+                    likedProjects.remove(projectId);
+                } else {
+                    likedProjects.add(projectId);
+                }
+                JsonObject updateData = new JsonObject().put("likedProjects", likedProjects);
+                return DBUtils.findByIdAndUpdate(userId, updateData, TABLE_NAME);
+            } else {
+                return Future.failedFuture("User not found");
+            }
+        });
     }
 }

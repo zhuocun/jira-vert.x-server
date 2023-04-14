@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.pgclient.PgPool;
@@ -12,7 +11,10 @@ import io.vertx.sqlclient.Tuple;
 
 public class PostgresUtils {
 
-    static PgPool postgresPool = DBInitialiser.getPostgresPool();
+    private PostgresUtils() {}
+
+    private static DBInitialiser dbInitialiser = new DBInitialiser();
+    private static PgPool postgresPool = dbInitialiser.getPostgresPool();
 
     public static Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();

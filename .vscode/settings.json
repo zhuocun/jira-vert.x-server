@@ -1,9 +1,5 @@
 {
-    "[java]": {
-        "editor.defaultFormatter": "redhat.java"
-    },
     "java.configuration.updateBuildConfiguration": "automatic",
-    "editor.defaultFormatter": "redhat.java",
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 5000,
     "editor.formatOnSave": true,
@@ -14,5 +10,9 @@
     "[xml]": {
         "editor.defaultFormatter": "redhat.vscode-xml"
     },
-    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml"
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    },
+    "editor.defaultFormatter": "redhat.java"
 }

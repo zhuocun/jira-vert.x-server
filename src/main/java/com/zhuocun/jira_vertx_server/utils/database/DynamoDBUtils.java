@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 
 public class DynamoDBUtils {
 
+    private DynamoDBUtils() {}
     // Replace this with your DynamoDB client initialization
     // static DynamoDbClient dynamoDbClient = ...
 

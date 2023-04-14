@@ -7,28 +7,24 @@ import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.pgclient.SslMode;
 import io.vertx.sqlclient.PoolOptions;
-
+import java.util.logging.Logger;
 import com.zhuocun.jira_vertx_server.config.EnvConfig;
 import com.zhuocun.jira_vertx_server.constants.DatabaseType;
 
 public class DBInitialiser {
 
-    private final Vertx vertx;
-    private static PgPool postgresPool;
+    private static final Logger logger = Logger.getLogger(DBInitialiser.class.getName());
+    private PgPool postgresPool;
 
-    public static PgPool getPostgresPool() {
+    public PgPool getPostgresPool() {
         return postgresPool;
     }
 
-    public DBInitialiser(Vertx vertx) {
-        this.vertx = vertx;
-    }
-
-    public Future<Object> initDB() {
+    public Future<Object> initDB(Vertx vertx) {
         EnvConfig config = new EnvConfig(".env");
         switch (DBUtils.getDBType()) {
             case DatabaseType.POSTGRESQL:
-                return initPostgreSQL(config);
+                return initPostgreSQL(config, vertx);
             case DatabaseType.MONGO_DB:
                 return initMongoDB(config);
             default:
@@ -36,7 +32,7 @@ public class DBInitialiser {
         }
     }
 
-    private Future<Object> initPostgreSQL(EnvConfig config) {
+    private Future<Object> initPostgreSQL(EnvConfig config, Vertx vertx) {
         PgConnectOptions connectOptions = new PgConnectOptions()
                 .setPort(Integer.parseInt(config.getProperty("POSTGRES_PORT")))
                 .setHost(config.getProperty("POSTGRES_HOST"))
@@ -49,10 +45,10 @@ public class DBInitialiser {
         PoolOptions poolOptions = new PoolOptions().setMaxSize(10);
         postgresPool = PgPool.pool(vertx, connectOptions, poolOptions);
         return postgresPool.getConnection().compose(conn -> {
-            System.out.println("Connected to PostgreSQL database");
+            logger.info("Connected to PostgreSQL database");
             return Future.succeededFuture();
         }).onFailure(cause -> {
-            System.out.printf("Failed to connect to PostgreSQL database", cause);
+            logger.warning("Failed to connect to PostgreSQL database" + cause);
             postgresPool.close();
         });
     }
