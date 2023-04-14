@@ -13,6 +13,7 @@ public class ServerLauncher {
                 logger.info("MainVerticle deployment successful.");
             } else {
                 logger.warning("MainVerticle deployment failed.");
+                ar.cause().printStackTrace();
             }
         });
     }

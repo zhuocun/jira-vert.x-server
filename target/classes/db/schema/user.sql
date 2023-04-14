@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS users (
-      _id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      username VARCHAR(255) NOT NULL,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      "likedProjects" TEXT[] DEFAULT ARRAY[]::TEXT[],
-      "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );

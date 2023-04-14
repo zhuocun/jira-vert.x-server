@@ -1,9 +1,9 @@
 package com.zhuocun.jira_vertx_server.utils.database;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.pgclient.PgPool;
@@ -19,12 +19,14 @@ public class PostgresUtils {
     public static Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();
         item.stream().forEach(entry -> params.addValue(entry.getValue()));
+        String placeholders = IntStream.rangeClosed(1, item.size()).mapToObj(i -> "$" + i)
+                .collect(Collectors.joining(","));
         String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName,
-                String.join(",", item.fieldNames()),
-                String.join(",", Collections.nCopies(item.size(), "?")));
+                String.join(",", item.fieldNames()), placeholders);
         return postgresPool.preparedQuery(query).execute(params)
                 .compose(res -> Future.succeededFuture());
     }
+
 
     public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
         Tuple params = Tuple.tuple();
@@ -33,7 +35,7 @@ public class PostgresUtils {
         if (!reqBody.isEmpty()) {
             StringBuilder sb = new StringBuilder(" WHERE ");
             reqBody.stream().forEach(entry -> {
-                sb.append(String.format("%s = ? AND ", entry.getKey()));
+                sb.append(String.format("%s = $%d AND ", entry.getKey(), params.size() + 1));
                 params.addValue(entry.getValue());
             });
             sb.delete(sb.length() - 5, sb.length());
@@ -46,6 +48,7 @@ public class PostgresUtils {
             return resultList;
         });
     }
+
 
     public static Future<JsonObject> findById(String id, String tableName) {
         String query = String.format("SELECT * FROM %s WHERE _id = $1", tableName);
@@ -70,16 +73,19 @@ public class PostgresUtils {
         Tuple params = Tuple.tuple();
         updateFields.stream().forEach(entry -> params.addValue(entry.getValue()));
         params.addValue(id);
-        String setValues = updateFields.fieldNames().stream().map(key -> "\"" + key + "\" = ?")
+        String setValues = IntStream.rangeClosed(1, updateFields.size()).mapToObj(
+                i -> "\"" + new ArrayList<>(updateFields.fieldNames()).get(i - 1) + "\" = $" + i)
                 .collect(Collectors.joining(", "));
-        String query =
-                String.format("UPDATE %s SET %s WHERE _id = ? RETURNING *", tableName, setValues);
+        String query = String.format("UPDATE %s SET %s WHERE _id = $%d RETURNING *", tableName,
+                setValues, params.size());
         return postgresPool.preparedQuery(query).execute(params)
                 .map(res -> res.iterator().next().toJson());
     }
 
     public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
-        String whereClauses = reqBody.fieldNames().stream().map(key -> String.format("%s = ?", key))
+        String whereClauses = IntStream.rangeClosed(1, reqBody.size())
+                .mapToObj(
+                        i -> "\"" + new ArrayList<>(reqBody.fieldNames()).get(i - 1) + "\" = $" + i)
                 .collect(Collectors.joining(" AND "));
         String query = String.format("SELECT * FROM %s WHERE %s LIMIT 1", tableName, whereClauses);
 
@@ -89,5 +95,6 @@ public class PostgresUtils {
         return postgresPool.preparedQuery(query).execute(params)
                 .map(res -> res.iterator().hasNext() ? res.iterator().next().toJson() : null);
     }
+
 
 }

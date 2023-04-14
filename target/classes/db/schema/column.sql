@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS columns (
-      _id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-      "columnName" VARCHAR(255) NOT NULL,
-      "projectId" VARCHAR(255) NOT NULL,
-      index INTEGER NOT NULL,
-      "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    );
