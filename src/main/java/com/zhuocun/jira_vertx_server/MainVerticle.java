@@ -12,20 +12,13 @@ public class MainVerticle extends AbstractVerticle {
 
   @Override
   public void start(Promise<Void> startPromise) {
-    // Initialize the database
     DBInitialiser dbInitialiser = new DBInitialiser(vertx);
+    MainRouter mainRouter = new MainRouter();
     dbInitialiser.initDB().compose(v -> {
-      // Create the main router
-      Router mainRouter = MainRouter.create(vertx);
+      Router router = mainRouter.create(vertx);
+      HttpServerOptions serverOptions = new HttpServerOptions().setCompressionSupported(true);
 
-      // Configure the HTTP server options
-      HttpServerOptions serverOptions = new HttpServerOptions()
-          .setCompressionSupported(true);
-
-      // Start the HTTP server
-      return vertx.createHttpServer(serverOptions)
-          .requestHandler(mainRouter)
-          .listen(8080)
+      return vertx.createHttpServer(serverOptions).requestHandler(router).listen(8080)
           .compose(server -> {
             System.out.printf("HTTP server running on port %d%n", server.actualPort());
             return Future.succeededFuture();
@@ -38,5 +31,4 @@ public class MainVerticle extends AbstractVerticle {
       }
     });
   }
-
 }

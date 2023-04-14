@@ -6,62 +6,49 @@ import com.zhuocun.jira_vertx_server.services.UserService;
 
 public class UserController {
 
-    private UserService userService;
+    private static UserService userService = new UserService();
 
-    public UserController() {
-        this.userService = new UserService();
+    public void get(RoutingContext ctx) {
+        String userId = getUserId(ctx);
+        userService.get(userId)
+            .onSuccess(user -> ctx.response().setStatusCode(200).end(user.encode()))
+            .onFailure(err -> ctx.response().setStatusCode(404)
+            .end(new JsonObject().put("error", "User not found").encode()));
     }
 
-    public void getAllUsers(RoutingContext ctx) {
-        userService.getAllUsers()
-                .onSuccess(users -> ctx.json(users))
-                .onFailure(ctx::fail);
+    public void update(RoutingContext ctx) {
+        String userId = getUserId(ctx);
+        JsonObject updateData = ctx.body().asJsonObject();
+        userService.update(userId, updateData)
+            .onSuccess(updatedUser -> ctx.response().setStatusCode(200)
+                .end(new JsonObject().put("userInfo", updatedUser).encode()))
+            .onFailure(err -> ctx.response().setStatusCode(400)
+                .end(new JsonObject().put("error", "Bad request").encode()));
     }
 
-    public void createUser(RoutingContext ctx) {
-        JsonObject body = ctx.body().asJsonObject();
-        userService.createUser(body)
-                .onSuccess(v -> ctx.response().setStatusCode(201).end())
-                .onFailure(ctx::fail);
+    public void getMembers(RoutingContext ctx) {
+        userService.getMembers()
+            .onSuccess(members -> ctx.response().setStatusCode(200)
+                .end(new JsonObject().put("members", members).encode()))
+            .onFailure(err -> ctx.response().setStatusCode(404)
+                .end(new JsonObject().put("error", "Members not found").encode()));
     }
 
-    public void getUserById(RoutingContext ctx) {
-        String id = ctx.pathParam("id");
-        userService.getUserById(id)
-                .onSuccess(user -> {
-                    if (user != null) {
-                        ctx.json(user);
-                    } else {
-                        ctx.response().setStatusCode(404).end();
-                    }
-                })
-                .onFailure(ctx::fail);
+    public void switchLikeStatus(RoutingContext ctx) {
+        String userId = getUserId(ctx);
+        String projectId = ctx.body().asJsonObject().getString("projectId");
+        userService.switchLikeStatus(userId, projectId)
+            .onSuccess(updatedUser -> ctx.response().setStatusCode(200).end(new JsonObject()
+                .put("username", updatedUser.getString("username"))
+                .put("likedProjects", updatedUser.getJsonArray("likedProjects"))
+                .encode()))
+            .onFailure(err -> ctx.response().setStatusCode(400)
+                .end(new JsonObject().put("error", "Bad request").encode()));
     }
 
-    public void updateUserById(RoutingContext ctx) {
-        String id = ctx.pathParam("id");
-        JsonObject update = ctx.body().asJsonObject();
-        userService.updateUserById(id, update)
-                .onSuccess(user -> {
-                    if (user != null) {
-                        ctx.json(user);
-                    } else {
-                        ctx.response().setStatusCode(404).end();
-                    }
-                })
-                .onFailure(ctx::fail);
-    }
-
-    public void deleteUserById(RoutingContext ctx) {
-        String id = ctx.pathParam("id");
-        userService.deleteUserById(id)
-                .onSuccess(user -> {
-                    if (user != null) {
-                        ctx.json(user);
-                    } else {
-                        ctx.response().setStatusCode(404).end();
-                    }
-                })
-                .onFailure(ctx::fail);
+    private static String getUserId(RoutingContext ctx) {
+        // TODO: Implement your logic to get the user ID from the RoutingContext, e.g.,
+        // from the request headers or JWT tokens.
+        return null;
     }
 }

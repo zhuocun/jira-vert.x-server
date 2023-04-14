@@ -17,11 +17,11 @@ public class PostgresUtils {
     public static Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();
         item.stream().forEach(entry -> params.addValue(entry.getValue()));
-        String query = String.format("INSERT INTO %s (%s) VALUES (%s)",
-                tableName,
+        String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName,
                 String.join(",", item.fieldNames()),
                 String.join(",", Collections.nCopies(item.size(), "?")));
-        return postgresPool.preparedQuery(query).execute(params).compose(res -> Future.succeededFuture());
+        return postgresPool.preparedQuery(query).execute(params)
+                .compose(res -> Future.succeededFuture());
     }
 
     public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
@@ -48,8 +48,7 @@ public class PostgresUtils {
     public static Future<JsonObject> findById(String id, String tableName) {
         String query = String.format("SELECT * FROM %s WHERE _id = $1", tableName);
         Tuple params = Tuple.of(id);
-        return postgresPool.preparedQuery(query)
-                .execute(params)
+        return postgresPool.preparedQuery(query).execute(params)
                 .map(rows -> rows.iterator().hasNext() ? rows.iterator().next().toJson() : null);
     }
 
@@ -69,13 +68,12 @@ public class PostgresUtils {
         Tuple params = Tuple.tuple();
         updateFields.stream().forEach(entry -> params.addValue(entry.getValue()));
         params.addValue(id);
-        String setValues = updateFields.fieldNames().stream()
-                .map(key -> "\"" + key + "\" = ?")
+        String setValues = updateFields.fieldNames().stream().map(key -> "\"" + key + "\" = ?")
                 .collect(Collectors.joining(", "));
-        String query = String.format("UPDATE %s SET %s WHERE _id = ? RETURNING *",
-                tableName,
-                setValues);
-        return postgresPool.preparedQuery(query).execute(params).map(res -> res.iterator().next().toJson());
+        String query =
+                String.format("UPDATE %s SET %s WHERE _id = ? RETURNING *", tableName, setValues);
+        return postgresPool.preparedQuery(query).execute(params)
+                .map(res -> res.iterator().next().toJson());
     }
 
     public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {

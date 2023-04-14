@@ -13,5 +13,6 @@
     "editor.fontSize": 14,
     "[xml]": {
         "editor.defaultFormatter": "redhat.vscode-xml"
-    }
+    },
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml"
 }

@@ -7,19 +7,16 @@ import com.zhuocun.jira_vertx_server.controllers.UserController;
 
 public class UserRouter {
 
-    public static Router create(Vertx vertx) {
+    public Router create(Vertx vertx) {
         Router router = Router.router(vertx);
         UserController userController = new UserController();
 
-        // Enable the BodyHandler for parsing request bodies
         router.route().handler(BodyHandler.create());
 
-        // Define the routes and handlers for CRUD operations
-        router.get("/").handler(userController::getAllUsers);
-        router.post("/").handler(userController::createUser);
-        router.get("/:id").handler(userController::getUserById);
-        router.put("/:id").handler(userController::updateUserById);
-        router.delete("/:id").handler(userController::deleteUserById);
+        router.get("/").handler(userController::get);
+        router.put("/").handler(userController::update);
+        router.get("/members").handler(userController::getMembers);
+        router.post("/switch-like-status").handler(userController::switchLikeStatus);
 
         return router;
     }

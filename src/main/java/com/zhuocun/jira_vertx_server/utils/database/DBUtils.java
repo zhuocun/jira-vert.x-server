@@ -15,6 +15,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.findOne(reqBody, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.findOne(reqBody, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.findOne(reqBody, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
@@ -24,6 +28,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.createItem(item, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.createItem(item, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.createItem(item, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
@@ -33,6 +41,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.find(reqBody, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.find(reqBody, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.find(reqBody, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
@@ -42,6 +54,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.findById(id, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.findById(id, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.findById(id, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
@@ -51,6 +67,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.findByIdAndDelete(id, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.findByIdAndDelete(id, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.findByIdAndDelete(id, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
@@ -60,6 +80,10 @@ public class DBUtils {
         switch (getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return PostgresUtils.findByIdAndUpdate(id, update, tableName);
+            case DatabaseType.MONGO_DB:
+                return MongoDBUtils.findByIdAndUpdate(id, update, tableName);
+            case DatabaseType.DYNAMO_DB:
+                return DynamoDBUtils.findByIdAndUpdate(id, update, tableName);
             default:
                 throw new Error(ErrorMsg.INVALID_DB);
         }
