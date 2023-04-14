@@ -24,7 +24,7 @@ public class UserController {
             .onSuccess(updatedUser -> ctx.response().setStatusCode(200)
                 .end(new JsonObject().put("userInfo", updatedUser).encode()))
             .onFailure(err -> ctx.response().setStatusCode(400)
-                        .end(new JsonObject().put(MyError.KEY, "Bad request").encode()));
+                        .end(new JsonObject().put(MyError.KEY, MyError.BAD_REQUEST).encode()));
     }
 
     public void getMembers(RoutingContext ctx) {
@@ -44,7 +44,7 @@ public class UserController {
                 .put("likedProjects", updatedUser.getJsonArray("likedProjects"))
                 .encode()))
             .onFailure(err -> ctx.response().setStatusCode(400)
-                        .end(new JsonObject().put(MyError.KEY, "Bad request").encode()));
+                        .end(new JsonObject().put(MyError.KEY, MyError.BAD_REQUEST).encode()));
     }
 
     private static String getUserId(RoutingContext ctx) {
