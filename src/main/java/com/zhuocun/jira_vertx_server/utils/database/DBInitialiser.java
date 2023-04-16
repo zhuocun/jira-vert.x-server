@@ -12,11 +12,16 @@ import java.util.logging.Logger;
 import com.zhuocun.jira_vertx_server.config.EnvConfig;
 import com.zhuocun.jira_vertx_server.constants.DatabaseType;
 import com.zhuocun.jira_vertx_server.constants.MyError;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 public class DBInitialiser {
 
     private static final Logger logger = Logger.getLogger(DBInitialiser.class.getName());
     private PgPool postgresPool;
+    private DynamoDbClient dynamoDbClient;
 
     public Pool getDbPool() {
         switch (DBUtils.getDBType()) {
@@ -31,6 +36,10 @@ public class DBInitialiser {
         }
     }
 
+    public DynamoDbClient getDynamoDbClient() {
+        return dynamoDbClient;
+    }
+
     public Future<Object> initDB(Vertx vertx) {
         EnvConfig config = new EnvConfig(".env");
         String dbType = DBUtils.getDBType();
@@ -39,6 +48,8 @@ public class DBInitialiser {
                 return initPostgreSQL(config, vertx);
             case DatabaseType.MONGO_DB:
                 return initMongoDB(config);
+            case DatabaseType.DYNAMO_DB:
+                return initDynamoDB(config);
             default:
                 return Future.failedFuture(MyError.INVALID_DB + dbType);
         }
@@ -68,6 +79,27 @@ public class DBInitialiser {
     private Future<Object> initMongoDB(EnvConfig config) {
         // TODO: Implement MongoDB initialization logic
         return Future.failedFuture("MongoDB initialization not implemented");
+    }
+
+    private Future<Object> initDynamoDB(EnvConfig config) {
+        String accessKeyId = config.getProperty("AWS_ACCESS_KEY_ID");
+        String secretAccessKey = config.getProperty("AWS_SECRET_ACCESS_KEY");
+        String region = config.getProperty("AWS_REGION");
+
+        try {
+            AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+            StaticCredentialsProvider credentialsProvider =
+                    StaticCredentialsProvider.create(awsCreds);
+
+            dynamoDbClient = DynamoDbClient.builder().region(Region.of(region))
+                    .credentialsProvider(credentialsProvider).build();
+
+            logger.info("Connected to DynamoDB");
+            return Future.succeededFuture();
+        } catch (Exception e) {
+            logger.warning("Failed to connect to DynamoDB: " + e);
+            return Future.failedFuture("Failed to connect to DynamoDB: " + e);
+        }
     }
 
 }
