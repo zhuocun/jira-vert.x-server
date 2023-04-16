@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.pgclient.PgPool;
+import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Tuple;
 
 public class PostgresUtils {
@@ -14,7 +14,7 @@ public class PostgresUtils {
     private PostgresUtils() {}
 
     private static DBInitialiser dbInitialiser = new DBInitialiser();
-    private static PgPool postgresPool = dbInitialiser.getPostgresPool();
+    private static Pool postgresPool = dbInitialiser.getDbPool();
 
     public static Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();

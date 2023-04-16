@@ -6,6 +6,7 @@ import io.vertx.core.net.PemTrustOptions;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.pgclient.SslMode;
+import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.PoolOptions;
 import java.util.logging.Logger;
 import com.zhuocun.jira_vertx_server.config.EnvConfig;
@@ -16,8 +17,17 @@ public class DBInitialiser {
     private static final Logger logger = Logger.getLogger(DBInitialiser.class.getName());
     private PgPool postgresPool;
 
-    public PgPool getPostgresPool() {
-        return postgresPool;
+    public Pool getDbPool() {
+        switch (DBUtils.getDBType()) {
+            case DatabaseType.POSTGRESQL:
+                return postgresPool;
+            case DatabaseType.MONGO_DB:
+                return null;
+            case DatabaseType.DYNAMO_DB:
+                return null;
+            default:
+                return null;
+        }
     }
 
     public Future<Object> initDB(Vertx vertx) {

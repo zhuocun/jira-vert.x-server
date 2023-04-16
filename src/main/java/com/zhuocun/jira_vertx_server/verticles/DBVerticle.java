@@ -18,7 +18,7 @@ public class DBVerticle extends AbstractVerticle {
         dbInitialiser.initDB(vertx).onSuccess(result -> {
             switch (DBUtils.getDBType()) {
                 case DatabaseType.POSTGRESQL:
-                    dbPool = dbInitialiser.getPostgresPool();
+                    dbPool = dbInitialiser.getDbPool();
                     break;
                 case DatabaseType.MONGO_DB:
                     break;
