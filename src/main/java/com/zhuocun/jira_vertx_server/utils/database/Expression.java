@@ -1,4 +1,4 @@
-package com.zhuocun.jira_vertx_server.utils.database.dynamoDbUtils;
+package com.zhuocun.jira_vertx_server.utils.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;

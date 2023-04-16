@@ -8,6 +8,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import com.zhuocun.jira_vertx_server.constants.DatabaseType;
 import com.zhuocun.jira_vertx_server.constants.MyError;
+import com.zhuocun.jira_vertx_server.utils.database.crud.DynamoDbUtils;
+import com.zhuocun.jira_vertx_server.utils.database.crud.MongoDBUtils;
+import com.zhuocun.jira_vertx_server.utils.database.crud.PostgresUtils;
 import com.zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 public class DBUtils {

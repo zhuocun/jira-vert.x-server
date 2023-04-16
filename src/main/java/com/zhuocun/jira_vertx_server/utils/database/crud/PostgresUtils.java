@@ -1,9 +1,10 @@
-package com.zhuocun.jira_vertx_server.utils.database;
+package com.zhuocun.jira_vertx_server.utils.database.crud;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import com.zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.Pool;
