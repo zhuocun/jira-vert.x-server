@@ -1,19 +1,47 @@
 package com.zhuocun.jira_vertx_server.utils.database;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 
 public class DynamoDBUtils {
 
     private DynamoDBUtils() {}
-    // Replace this with your DynamoDB client initialization
-    // static DynamoDbClient dynamoDbClient = ...
+
+    private static DBInitialiser dbInitialiser = new DBInitialiser();
+    private static DynamoDbClient dynamoDBClient = dbInitialiser.getDynamoDBClient();
 
     public static Future<Void> createItem(JsonObject item, String tableName) {
-        // TODO: Implement the method to create an item in DynamoDB
-        return Future.succeededFuture();
+        Map<String, AttributeValue> itemValues = new HashMap<>();
+        item.fieldNames().forEach(fieldName -> {
+            Object fieldValue = item.getValue(fieldName);
+            if (fieldValue instanceof String) {
+                itemValues.put(fieldName, AttributeValue.builder().s((String) fieldValue).build());
+            } else if (fieldValue instanceof Number) {
+                itemValues.put(fieldName,
+                        AttributeValue.builder().n(fieldValue.toString()).build());
+            } else if (fieldValue instanceof Boolean) {
+                itemValues.put(fieldName,
+                        AttributeValue.builder().bool((Boolean) fieldValue).build());
+            } else {
+                itemValues.put(fieldName,
+                        AttributeValue.builder().s(fieldValue.toString()).build());
+            }
+        });
+        PutItemRequest request =
+                PutItemRequest.builder().tableName(tableName).item(itemValues).build();
+        try {
+            dynamoDBClient.putItem(request);
+            return Future.succeededFuture();
+        } catch (DynamoDbException e) {
+            return Future.failedFuture(e);
+        }
     }
 
     public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {

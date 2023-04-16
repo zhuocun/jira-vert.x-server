@@ -21,7 +21,7 @@ public class DBInitialiser {
 
     private static final Logger logger = Logger.getLogger(DBInitialiser.class.getName());
     private PgPool postgresPool;
-    private DynamoDbClient dynamoDbClient;
+    private DynamoDbClient dynamoDBClient;
 
     public Pool getDbPool() {
         switch (DBUtils.getDBType()) {
@@ -36,8 +36,8 @@ public class DBInitialiser {
         }
     }
 
-    public DynamoDbClient getDynamoDbClient() {
-        return dynamoDbClient;
+    public DynamoDbClient getDynamoDBClient() {
+        return dynamoDBClient;
     }
 
     public Future<Object> initDB(Vertx vertx) {
@@ -91,7 +91,7 @@ public class DBInitialiser {
             StaticCredentialsProvider credentialsProvider =
                     StaticCredentialsProvider.create(awsCreds);
 
-            dynamoDbClient = DynamoDbClient.builder().region(Region.of(region))
+            dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
 
             logger.info("Connected to DynamoDB");
