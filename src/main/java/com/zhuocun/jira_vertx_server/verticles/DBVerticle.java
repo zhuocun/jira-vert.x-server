@@ -12,7 +12,7 @@ public class DBVerticle extends AbstractVerticle {
     private Pool dbPool;
 
     @Override
-    public void start(Promise<Void> startFuture) throws Exception {
+    public void start(Promise<Void> startPromise) throws Exception {
         DBInitialiser dbInitialiser = new DBInitialiser();
 
         dbInitialiser.initDB(vertx).onSuccess(result -> {
@@ -25,8 +25,8 @@ public class DBVerticle extends AbstractVerticle {
                 default:
                     break;
             }
-            startFuture.complete();
-        }).onFailure(startFuture::fail);
+            startPromise.complete();
+        }).onFailure(startPromise::fail);
     }
 
     @Override

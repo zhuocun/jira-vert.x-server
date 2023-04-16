@@ -22,13 +22,14 @@ public class DBInitialiser {
 
     public Future<Object> initDB(Vertx vertx) {
         EnvConfig config = new EnvConfig(".env");
-        switch (DBUtils.getDBType()) {
+        String dbType = DBUtils.getDBType();
+        switch (dbType) {
             case DatabaseType.POSTGRESQL:
                 return initPostgreSQL(config, vertx);
             case DatabaseType.MONGO_DB:
                 return initMongoDB(config);
             default:
-                return Future.failedFuture("Unknown database");
+                return Future.failedFuture("Unknown database" + dbType);
         }
     }
 

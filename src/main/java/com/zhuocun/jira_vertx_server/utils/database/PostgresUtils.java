@@ -94,5 +94,4 @@ public class PostgresUtils {
                 .map(res -> res.iterator().hasNext() ? res.iterator().next().toJson() : null);
     }
 
-
 }
