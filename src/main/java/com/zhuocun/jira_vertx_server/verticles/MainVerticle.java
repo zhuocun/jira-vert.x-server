@@ -1,13 +1,11 @@
-package com.zhuocun.jira_vertx_server;
+package com.zhuocun.jira_vertx_server.verticles;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
 import java.util.logging.Logger;
 import com.zhuocun.jira_vertx_server.routes.MainRouter;
-import com.zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -15,23 +13,21 @@ public class MainVerticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) {
-        DBInitialiser dbInitialiser = new DBInitialiser();
         MainRouter mainRouter = new MainRouter();
-        dbInitialiser.initDB(vertx).compose(v -> {
+        vertx.deployVerticle(new DBVerticle(), databaseDeployment -> {
+            if (databaseDeployment.failed()) {
+                startPromise.fail(databaseDeployment.cause());
+                return;
+            }
+
             Router router = mainRouter.create(vertx);
             HttpServerOptions serverOptions = new HttpServerOptions().setCompressionSupported(true);
 
-            return vertx.createHttpServer(serverOptions).requestHandler(router).listen(8080)
-                    .compose(server -> {
+            vertx.createHttpServer(serverOptions).requestHandler(router).listen(8080)
+                    .onSuccess(server -> {
                         logger.info("HTTP server running on port " + server.actualPort());
-                        return Future.succeededFuture();
-                    });
-        }).onComplete(ar -> {
-            if (ar.succeeded()) {
-                startPromise.complete();
-            } else {
-                startPromise.fail(ar.cause());
-            }
+                        startPromise.complete();
+                    }).onFailure(startPromise::fail);
         });
     }
 }

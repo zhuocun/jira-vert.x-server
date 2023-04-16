@@ -27,7 +27,6 @@ public class PostgresUtils {
                 .compose(res -> Future.succeededFuture());
     }
 
-
     public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
         Tuple params = Tuple.tuple();
         String query = String.format("SELECT * FROM %s", tableName);
@@ -48,7 +47,6 @@ public class PostgresUtils {
             return resultList;
         });
     }
-
 
     public static Future<JsonObject> findById(String id, String tableName) {
         String query = String.format("SELECT * FROM %s WHERE _id = $1", tableName);
