@@ -20,7 +20,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.findOne(reqBody, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.findOne(reqBody, tableName);
+                return DynamoDbUtils.findOne(reqBody, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
@@ -33,7 +33,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.createItem(item, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.createItem(item, tableName);
+                return DynamoDbUtils.createItem(item, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
@@ -46,7 +46,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.find(reqBody, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.find(reqBody, tableName);
+                return DynamoDbUtils.find(reqBody, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
@@ -59,7 +59,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.findById(id, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.findById(id, tableName);
+                return DynamoDbUtils.findById(id, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
@@ -72,7 +72,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.findByIdAndDelete(id, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.findByIdAndDelete(id, tableName);
+                return DynamoDbUtils.findByIdAndDelete(id, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
@@ -85,7 +85,7 @@ public class DBUtils {
             case DatabaseType.MONGO_DB:
                 return MongoDBUtils.findByIdAndUpdate(id, update, tableName);
             case DatabaseType.DYNAMO_DB:
-                return DynamoDBUtils.findByIdAndUpdate(id, update, tableName);
+                return DynamoDbUtils.findByIdAndUpdate(id, update, tableName);
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
         }
