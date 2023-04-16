@@ -11,6 +11,7 @@ import io.vertx.sqlclient.PoolOptions;
 import java.util.logging.Logger;
 import com.zhuocun.jira_vertx_server.config.EnvConfig;
 import com.zhuocun.jira_vertx_server.constants.DatabaseType;
+import com.zhuocun.jira_vertx_server.constants.MyError;
 
 public class DBInitialiser {
 
@@ -39,7 +40,7 @@ public class DBInitialiser {
             case DatabaseType.MONGO_DB:
                 return initMongoDB(config);
             default:
-                return Future.failedFuture("Unknown database" + dbType);
+                return Future.failedFuture(MyError.INVALID_DB + dbType);
         }
     }
 
