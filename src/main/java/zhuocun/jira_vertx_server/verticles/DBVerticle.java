@@ -8,11 +8,14 @@ import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.sqlclient.Pool;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 
 public class DBVerticle extends AbstractVerticle {
 
     private Pool dbPool;
+
+    private DynamoDbClient dynamoDBClient;
 
     private final DBInitialiser dbInitialiser;
 
@@ -31,12 +34,12 @@ public class DBVerticle extends AbstractVerticle {
                 case DatabaseType.MONGO_DB:
                     break;
                 case DatabaseType.DYNAMO_DB:
+                    dynamoDBClient = dbInitialiser.getDynamoDBClient();
                     break;
                 default:
                     break;
             }
-            AbstractDbUtils dbUtils = DBUtilsFactory.createDBUtils(dbInitialiser.getDbPool(),
-                    dbInitialiser.getDynamoDBClient());
+            AbstractDbUtils dbUtils = DBUtilsFactory.createDBUtils(dbPool, dynamoDBClient);
             DBOperation.setDbUtils(dbUtils);
             startPromise.complete();
         }).onFailure(startPromise::fail);
@@ -46,6 +49,9 @@ public class DBVerticle extends AbstractVerticle {
     public void stop() throws Exception {
         if (dbPool != null) {
             dbPool.close();
+        }
+        if (dynamoDBClient != null) {
+            dynamoDBClient.close();
         }
     }
 }
