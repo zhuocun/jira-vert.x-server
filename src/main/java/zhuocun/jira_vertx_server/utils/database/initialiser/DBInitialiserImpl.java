@@ -107,7 +107,6 @@ public class DBInitialiserImpl implements DBInitialiser {
 
             dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
-            System.out.println("Created DynamoDB client" + dynamoDBClient);
             log.info("Connected to DynamoDB");
             return Future.succeededFuture();
         } catch (DynamoDbException e) {
