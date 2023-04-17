@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
@@ -23,17 +24,18 @@ import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 import com.fasterxml.uuid.Generators;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import zhuocun.jira_vertx_server.utils.database.Expression;
 
-public class DynamoDbUtils {
+public class DynamoDbUtils implements AbstractDbUtils {
 
-    private DynamoDbUtils() {}
+    private final DynamoDbClient dynamoDBClient;
 
-    private static DBInitialiser dbInitialiser = new DBInitialiser();
-    private static DynamoDbClient dynamoDBClient = dbInitialiser.getDynamoDBClient();
+    public DynamoDbUtils(DynamoDbClient dynamoDBClient) {
+        this.dynamoDBClient = dynamoDBClient;
+    }
 
-    public static Future<Void> createItem(JsonObject reqBody, String tableName) {
+    @Override
+    public Future<Void> createItem(JsonObject reqBody, String tableName) {
         Promise<Void> resultPromise = Promise.promise();
 
         String id = Generators.randomBasedGenerator().generate().toString();
@@ -59,7 +61,8 @@ public class DynamoDbUtils {
         return resultPromise.future();
     }
 
-    public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
+    @Override
+    public Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
 
         Promise<List<JsonObject>> resultPromise = Promise.promise();
 
@@ -90,7 +93,8 @@ public class DynamoDbUtils {
         return resultPromise.future();
     }
 
-    public static Future<JsonObject> findById(String id, String tableName) {
+    @Override
+    public Future<JsonObject> findById(String id, String tableName) {
         Promise<JsonObject> resultPromise = Promise.promise();
 
         GetItemRequest getItemRequest = GetItemRequest.builder().tableName(tableName)
@@ -114,7 +118,8 @@ public class DynamoDbUtils {
         return resultPromise.future();
     }
 
-    public static Future<JsonObject> findByIdAndDelete(String id, String tableName) {
+    @Override
+    public Future<JsonObject> findByIdAndDelete(String id, String tableName) {
         Promise<JsonObject> resultPromise = Promise.promise();
 
         DeleteItemRequest deleteItemRequest = DeleteItemRequest.builder().tableName(tableName)
@@ -138,7 +143,8 @@ public class DynamoDbUtils {
         return resultPromise.future();
     }
 
-    public static Future<JsonObject> findByIdAndUpdate(String id, JsonObject updateFields,
+    @Override
+    public Future<JsonObject> findByIdAndUpdate(String id, JsonObject updateFields,
             String tableName) {
         Promise<JsonObject> resultPromise = Promise.promise();
 
@@ -171,7 +177,8 @@ public class DynamoDbUtils {
         return resultPromise.future();
     }
 
-    public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
+    @Override
+    public Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
 
         Promise<JsonObject> resultPromise = Promise.promise();
 

@@ -7,6 +7,7 @@ public class MainVerticle extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) {
+
         // Deploy the DBVerticle
         vertx.deployVerticle(new DBVerticle(), dbDeployment -> {
             if (dbDeployment.failed()) {

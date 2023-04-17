@@ -1,7 +1,11 @@
 package zhuocun.jira_vertx_server.models;
 
 import io.vertx.core.json.JsonObject;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@AllArgsConstructor
+@Data
 public class User {
     private String id;
     private String username;
@@ -11,89 +15,10 @@ public class User {
     private String createdAt;
     private String updatedAt;
 
-    public User(String id, String username, String email, String password, String[] likedProjects,
-            String createdAt, String updatedAt) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.likedProjects = likedProjects;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public User(JsonObject json) {
         this(json.getString("_id"), json.getString("username"), json.getString("email"),
                 json.getString("password"), json.getJsonArray("likedProjects").stream()
                         .map(Object::toString).toArray(String[]::new),
                 json.getString("createdAt"), json.getString("updatedAt"));
-    }
-
-    public JsonObject toJson() {
-        JsonObject json = new JsonObject();
-        json.put("_id", this.id);
-        json.put("username", this.username);
-        json.put("email", this.email);
-        json.put("password", this.password);
-        json.put("likedProjects", this.likedProjects);
-        json.put("createdAt", this.createdAt);
-        json.put("updatedAt", this.updatedAt);
-        return json;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String[] getLikedProjects() {
-        return this.likedProjects;
-    }
-
-    public void setLikedProjects(String[] likedProjects) {
-        this.likedProjects = likedProjects;
-    }
-
-    public String getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdatedAt() {
-        return this.updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

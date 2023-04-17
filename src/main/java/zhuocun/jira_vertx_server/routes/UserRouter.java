@@ -9,14 +9,12 @@ public class UserRouter {
 
     public Router create(Vertx vertx) {
         Router router = Router.router(vertx);
-        UserController userController = new UserController();
-
         router.route().handler(BodyHandler.create());
 
-        router.get("/").handler(userController::get);
-        router.put("/").handler(userController::update);
-        router.get("/members").handler(userController::getMembers);
-        router.post("/switch-like-status").handler(userController::switchLikeStatus);
+        router.get("/").handler(UserController::get);
+        router.put("/").handler(UserController::update);
+        router.get("/members").handler(UserController::getMembers);
+        router.post("/switch-like-status").handler(UserController::switchLikeStatus);
 
         return router;
     }

@@ -2,9 +2,11 @@ package zhuocun.jira_vertx_server.controllers;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import lombok.experimental.UtilityClass;
 import zhuocun.jira_vertx_server.constants.MyError;
 import zhuocun.jira_vertx_server.services.UserService;
 
+@UtilityClass
 public class UserController {
 
     private static UserService userService = new UserService();

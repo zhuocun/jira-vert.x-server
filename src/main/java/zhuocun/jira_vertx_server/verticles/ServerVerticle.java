@@ -18,11 +18,9 @@ public class ServerVerticle extends AbstractVerticle {
         // Start the server
         HttpServerOptions serverOptions = new HttpServerOptions().setCompressionSupported(true);
         vertx.createHttpServer(serverOptions).requestHandler(router).listen(8080)
-                .onSuccess(
-                                        server -> log.info("HTTP server running on port "
-                                                        + server.actualPort()))
-                        .onFailure(throwable -> log.error(
-                                        "Failed to start HTTP server: " + throwable.getMessage()));
+                .onSuccess(server -> log.info("HTTP server running on port " + server.actualPort()))
+                .onFailure(throwable -> log
+                        .error("Failed to start HTTP server: " + throwable.getMessage()));
     }
 }
 

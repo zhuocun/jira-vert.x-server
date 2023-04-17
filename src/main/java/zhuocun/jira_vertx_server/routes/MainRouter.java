@@ -21,7 +21,7 @@ public class MainRouter {
         JWTAuth authProvider = JWTAuth.create(vertx, jwtAuthOptions);
         JWTAuthHandler jwtAuthHandler = JWTAuthHandler.create(authProvider);
 
-        mainRouter.route("/users*").handler(jwtAuthHandler).subRouter(userRouter.create(vertx));
+        mainRouter.route("/users*").subRouter(userRouter.create(vertx));
 
         return mainRouter;
     }

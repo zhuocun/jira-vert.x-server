@@ -5,19 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import io.vertx.core.json.JsonObject;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+@AllArgsConstructor
+@Getter
 public class Expression {
     private final Map<String, String> expressionAttributeNames;
     private final Map<String, AttributeValue> expressionAttributeValues;
     private final String filterExpression;
-
-    public Expression(Map<String, String> expressionAttributeNames,
-            Map<String, AttributeValue> expressionAttributeValues, String filterExpression) {
-        this.expressionAttributeNames = expressionAttributeNames;
-        this.expressionAttributeValues = expressionAttributeValues;
-        this.filterExpression = filterExpression;
-    }
 
     public static Expression buildExpression(JsonObject attributeFields) {
         Map<String, String> expressionAttributeNames = new HashMap<>();
@@ -39,17 +36,5 @@ public class Expression {
 
         return new Expression(expressionAttributeNames, expressionAttributeValues,
                 String.join(" AND ", expressions));
-    }
-
-    public Map<String, String> getExpressionAttributeNames() {
-        return expressionAttributeNames;
-    }
-
-    public Map<String, AttributeValue> getExpressionAttributeValues() {
-        return expressionAttributeValues;
-    }
-
-    public String getFilterExpression() {
-        return filterExpression;
     }
 }

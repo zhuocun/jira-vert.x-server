@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Tuple;
 
-public class PostgresUtils {
+public class PostgresUtils implements AbstractDbUtils {
 
-    private PostgresUtils() {}
+    private final Pool postgresPool;
 
-    private static DBInitialiser dbInitialiser = new DBInitialiser();
-    private static Pool postgresPool = dbInitialiser.getDbPool();
+    public PostgresUtils(Pool postgresPool) {
+        this.postgresPool = postgresPool;
+    }
 
-    public static Future<Void> createItem(JsonObject item, String tableName) {
+    public Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();
         item.stream().forEach(entry -> params.addValue(entry.getValue()));
         String placeholders = IntStream.rangeClosed(1, item.size()).mapToObj(i -> "$" + i)
@@ -28,7 +28,7 @@ public class PostgresUtils {
                 .compose(res -> Future.succeededFuture());
     }
 
-    public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
+    public Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
         Tuple params = Tuple.tuple();
         String query = String.format("SELECT * FROM %s", tableName);
 
@@ -49,14 +49,14 @@ public class PostgresUtils {
         });
     }
 
-    public static Future<JsonObject> findById(String id, String tableName) {
+    public Future<JsonObject> findById(String id, String tableName) {
         String query = String.format("SELECT * FROM %s WHERE _id = $1", tableName);
         Tuple params = Tuple.of(id);
         return postgresPool.preparedQuery(query).execute(params)
                 .map(rows -> rows.iterator().hasNext() ? rows.iterator().next().toJson() : null);
     }
 
-    public static Future<JsonObject> findByIdAndDelete(String id, String tableName) {
+    public Future<JsonObject> findByIdAndDelete(String id, String tableName) {
         Tuple params = Tuple.of(id);
         String query = String.format("DELETE FROM %s WHERE _id = $1 RETURNING *", tableName);
         return postgresPool.preparedQuery(query).execute(params).compose(res -> {
@@ -67,7 +67,7 @@ public class PostgresUtils {
         });
     }
 
-    public static Future<JsonObject> findByIdAndUpdate(String id, JsonObject updateFields,
+    public Future<JsonObject> findByIdAndUpdate(String id, JsonObject updateFields,
             String tableName) {
         Tuple params = Tuple.tuple();
         updateFields.stream().forEach(entry -> params.addValue(entry.getValue()));
@@ -81,7 +81,7 @@ public class PostgresUtils {
                 .map(res -> res.iterator().next().toJson());
     }
 
-    public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
+    public Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
         String whereClauses = IntStream.rangeClosed(1, reqBody.size())
                 .mapToObj(
                         i -> "\"" + new ArrayList<>(reqBody.fieldNames()).get(i - 1) + "\" = $" + i)

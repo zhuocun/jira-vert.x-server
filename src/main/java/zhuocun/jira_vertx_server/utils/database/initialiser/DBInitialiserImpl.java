@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database;
+package zhuocun.jira_vertx_server.utils.database.initialiser;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 import zhuocun.jira_vertx_server.constants.MyError;
+import zhuocun.jira_vertx_server.utils.database.DBOperation;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -19,13 +20,24 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Slf4j
-public class DBInitialiser {
+public class DBInitialiserImpl implements DBInitialiser {
 
     private PgPool postgresPool;
     private DynamoDbClient dynamoDBClient;
+    private static DBInitialiserImpl dbInitialiser;
 
+    private DBInitialiserImpl() {}
+
+    public static DBInitialiserImpl getDbInitialiser() {
+        if (dbInitialiser == null) {
+            dbInitialiser = new DBInitialiserImpl();
+        }
+        return dbInitialiser;
+    }
+
+    @Override
     public Pool getDbPool() {
-        switch (DBUtils.getDBType()) {
+        switch (DBOperation.getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return postgresPool;
             case DatabaseType.MONGO_DB:
@@ -37,13 +49,15 @@ public class DBInitialiser {
         }
     }
 
+    @Override
     public DynamoDbClient getDynamoDBClient() {
         return dynamoDBClient;
     }
 
+    @Override
     public Future<Object> initDB(Vertx vertx) {
-        EnvConfig config = new EnvConfig(".env");
-        String dbType = DBUtils.getDBType();
+        EnvConfig config = new EnvConfig();
+        String dbType = DBOperation.getDBType();
         switch (dbType) {
             case DatabaseType.POSTGRESQL:
                 return initPostgreSQL(config, vertx);
@@ -93,7 +107,7 @@ public class DBInitialiser {
 
             dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
-
+            System.out.println("Created DynamoDB client" + dynamoDBClient);
             log.info("Connected to DynamoDB");
             return Future.succeededFuture();
         } catch (DynamoDbException e) {
