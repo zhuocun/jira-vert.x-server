@@ -22,8 +22,8 @@ public class PostgresUtils {
         item.stream().forEach(entry -> params.addValue(entry.getValue()));
         String placeholders = IntStream.rangeClosed(1, item.size()).mapToObj(i -> "$" + i)
                 .collect(Collectors.joining(","));
-        String query = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName,
-                String.join(",", item.fieldNames()), placeholders);
+        String query = String.format("INSERT INTO %s (\"%s\") VALUES (%s)", tableName,
+                String.join("\",\"", item.fieldNames()), placeholders);
         return postgresPool.preparedQuery(query).execute(params)
                 .compose(res -> Future.succeededFuture());
     }
@@ -35,7 +35,7 @@ public class PostgresUtils {
         if (!reqBody.isEmpty()) {
             StringBuilder sb = new StringBuilder(" WHERE ");
             reqBody.stream().forEach(entry -> {
-                sb.append(String.format("%s = $%d AND ", entry.getKey(), params.size() + 1));
+                sb.append(String.format("\"%s\" = $%d AND ", entry.getKey(), params.size() + 1));
                 params.addValue(entry.getValue());
             });
             sb.delete(sb.length() - 5, sb.length());
