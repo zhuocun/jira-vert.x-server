@@ -8,18 +8,19 @@ import io.vertx.pgclient.PgPool;
 import io.vertx.pgclient.SslMode;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.PoolOptions;
-import java.util.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 import zhuocun.jira_vertx_server.constants.MyError;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
+@Slf4j
 public class DBInitialiser {
 
-    private static final Logger logger = Logger.getLogger(DBInitialiser.class.getName());
     private PgPool postgresPool;
     private DynamoDbClient dynamoDBClient;
 
@@ -67,10 +68,10 @@ public class DBInitialiser {
         PoolOptions poolOptions = new PoolOptions().setMaxSize(10);
         postgresPool = PgPool.pool(vertx, connectOptions, poolOptions);
         return postgresPool.getConnection().compose(conn -> {
-            logger.info("Connected to PostgreSQL database");
+            log.info("Connected to PostgreSQL database");
             return Future.succeededFuture();
         }).onFailure(cause -> {
-            logger.warning("Failed to connect to PostgreSQL database" + cause);
+            log.error("Failed to connect to PostgreSQL database" + cause);
             postgresPool.close();
         });
     }
@@ -93,10 +94,10 @@ public class DBInitialiser {
             dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
 
-            logger.info("Connected to DynamoDB");
+            log.info("Connected to DynamoDB");
             return Future.succeededFuture();
-        } catch (Exception e) {
-            logger.warning("Failed to connect to DynamoDB: " + e);
+        } catch (DynamoDbException e) {
+            log.error("Failed to connect to DynamoDB: " + e);
             return Future.failedFuture("Failed to connect to DynamoDB: " + e);
         }
     }

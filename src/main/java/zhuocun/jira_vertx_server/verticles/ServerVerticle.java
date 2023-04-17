@@ -3,12 +3,11 @@ package zhuocun.jira_vertx_server.verticles;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
-import java.util.logging.Logger;
+import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.routes.MainRouter;
 
+@Slf4j
 public class ServerVerticle extends AbstractVerticle {
-
-    private static final Logger logger = Logger.getLogger(ServerVerticle.class.getName());
 
     @Override
     public void start() {
@@ -20,9 +19,10 @@ public class ServerVerticle extends AbstractVerticle {
         HttpServerOptions serverOptions = new HttpServerOptions().setCompressionSupported(true);
         vertx.createHttpServer(serverOptions).requestHandler(router).listen(8080)
                 .onSuccess(
-                        server -> logger.info("HTTP server running on port " + server.actualPort()))
-                .onFailure(throwable -> logger
-                        .severe("Failed to start HTTP server: " + throwable.getMessage()));
+                                        server -> log.info("HTTP server running on port "
+                                                        + server.actualPort()))
+                        .onFailure(throwable -> log.error(
+                                        "Failed to start HTTP server: " + throwable.getMessage()));
     }
 }
 
