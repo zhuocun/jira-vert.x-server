@@ -1,4 +1,34 @@
 -------------------------------------------------------------------------------
 Test set: com.zhuocun.jira_vertx_server.TestMainVerticle
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.448 s - in com.zhuocun.jira_vertx_server.TestMainVerticle
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.213 s <<< FAILURE! - in com.zhuocun.jira_vertx_server.TestMainVerticle
+verticle_deployed{Vertx, VertxTestContext}  Time elapsed: 0.208 s  <<< ERROR!
+com.google.inject.CreationException: 
+Unable to create injector, see the following errors:
+
+1) [Guice/MissingConstructor]: No injectable constructor for type DBOperation.
+
+class DBOperation has a private no-arg constructor but the class is not private. Guice can only use a private no-arg constructor if it is defined in a private class.
+
+Requested by:
+1  : DBOperation.class(DBOperation.java:19)
+     at DBInitialiser.<init>(DBInitialiser.java:32)
+      \_ for 1st parameter
+     at AppModule.configure(AppModule.java:11)
+
+Learn more:
+  https://github.com/google/guice/wiki/MISSING_CONSTRUCTOR
+
+1 error
+
+======================
+Full classname legend:
+======================
+AppModule:     "zhuocun.jira_vertx_server.modules.AppModule"
+DBInitialiser: "zhuocun.jira_vertx_server.utils.database.DBInitialiser"
+DBOperation:   "zhuocun.jira_vertx_server.utils.database.DBOperation"
+========================
+End of classname legend:
+========================
+
+

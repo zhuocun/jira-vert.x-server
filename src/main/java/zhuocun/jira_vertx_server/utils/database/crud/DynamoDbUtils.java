@@ -25,11 +25,11 @@ import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 import com.fasterxml.uuid.Generators;
 import zhuocun.jira_vertx_server.utils.database.Expression;
 
-public class DynamoDbUtils implements AbstractDbUtils {
+public class DynamoDBUtils implements AbstractDbUtils {
 
     private final DynamoDbClient dynamoDBClient;
 
-    public DynamoDbUtils(DynamoDbClient dynamoDBClient) {
+    public DynamoDBUtils(DynamoDbClient dynamoDBClient) {
         this.dynamoDBClient = dynamoDBClient;
     }
 

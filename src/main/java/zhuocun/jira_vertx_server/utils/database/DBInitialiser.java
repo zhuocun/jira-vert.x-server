@@ -1,5 +1,6 @@
 package zhuocun.jira_vertx_server.utils.database;
 
+import com.google.inject.Singleton;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.PemTrustOptions;
@@ -8,6 +9,7 @@ import io.vertx.pgclient.PgPool;
 import io.vertx.pgclient.SslMode;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.PoolOptions;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
@@ -18,21 +20,13 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
+@Singleton
+@Getter
 @Slf4j
 public class DBInitialiser {
 
     private PgPool postgresPool;
     private DynamoDbClient dynamoDBClient;
-    private static DBInitialiser dbInitialiser;
-
-    private DBInitialiser() {}
-
-    public static DBInitialiser getDbInitialiser() {
-        if (dbInitialiser == null) {
-            dbInitialiser = new DBInitialiser();
-        }
-        return dbInitialiser;
-    }
 
     public Pool getDbPool() {
         switch (DBOperation.getDBType()) {
@@ -45,10 +39,6 @@ public class DBInitialiser {
             default:
                 return null;
         }
-    }
-
-    public DynamoDbClient getDynamoDBClient() {
-        return dynamoDBClient;
     }
 
     public Future<Object> initDB(Vertx vertx) {

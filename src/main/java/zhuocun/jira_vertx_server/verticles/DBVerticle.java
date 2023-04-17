@@ -4,6 +4,7 @@ import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import zhuocun.jira_vertx_server.utils.database.DBOperation;
 import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.DBUtilsFactory;
+import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.sqlclient.Pool;
@@ -13,9 +14,15 @@ public class DBVerticle extends AbstractVerticle {
 
     private Pool dbPool;
 
+    private final DBInitialiser dbInitialiser;
+
+    @Inject
+    public DBVerticle(DBInitialiser dbInitialiser) {
+        this.dbInitialiser = dbInitialiser;
+    }
+
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
-        DBInitialiser dbInitialiser = DBInitialiser.getDbInitialiser();
         dbInitialiser.initDB(vertx).onSuccess(result -> {
             switch (DBOperation.getDBType()) {
                 case DatabaseType.POSTGRESQL:
@@ -28,9 +35,8 @@ public class DBVerticle extends AbstractVerticle {
                 default:
                     break;
             }
-            DBUtilsFactory dbUtilsFactory = DBUtilsFactory.getDBUtilsFactory();
-            dbUtilsFactory.setDbInitialiser(dbInitialiser);
-            AbstractDbUtils dbUtils = dbUtilsFactory.createDBUtils();
+            AbstractDbUtils dbUtils = DBUtilsFactory.createDBUtils(dbInitialiser.getDbPool(),
+                    dbInitialiser.getDynamoDBClient());
             DBOperation.setDbUtils(dbUtils);
             startPromise.complete();
         }).onFailure(startPromise::fail);

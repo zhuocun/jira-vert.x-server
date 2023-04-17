@@ -17,6 +17,7 @@ public class PostgresUtils implements AbstractDbUtils {
         this.postgresPool = postgresPool;
     }
 
+    @Override
     public Future<Void> createItem(JsonObject item, String tableName) {
         Tuple params = Tuple.tuple();
         item.stream().forEach(entry -> params.addValue(entry.getValue()));
@@ -28,6 +29,7 @@ public class PostgresUtils implements AbstractDbUtils {
                 .compose(res -> Future.succeededFuture());
     }
 
+    @Override
     public Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
         Tuple params = Tuple.tuple();
         String query = String.format("SELECT * FROM %s", tableName);
@@ -49,6 +51,7 @@ public class PostgresUtils implements AbstractDbUtils {
         });
     }
 
+    @Override
     public Future<JsonObject> findById(String id, String tableName) {
         String query = String.format("SELECT * FROM %s WHERE _id = $1", tableName);
         Tuple params = Tuple.of(id);
@@ -56,6 +59,7 @@ public class PostgresUtils implements AbstractDbUtils {
                 .map(rows -> rows.iterator().hasNext() ? rows.iterator().next().toJson() : null);
     }
 
+    @Override
     public Future<JsonObject> findByIdAndDelete(String id, String tableName) {
         Tuple params = Tuple.of(id);
         String query = String.format("DELETE FROM %s WHERE _id = $1 RETURNING *", tableName);
@@ -67,6 +71,7 @@ public class PostgresUtils implements AbstractDbUtils {
         });
     }
 
+    @Override
     public Future<JsonObject> findByIdAndUpdate(String id, JsonObject updateFields,
             String tableName) {
         Tuple params = Tuple.tuple();

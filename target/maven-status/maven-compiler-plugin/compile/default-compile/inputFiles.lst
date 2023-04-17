@@ -19,4 +19,5 @@
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/zhuocun/jira_vertx_server/routes/UserRouter.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/zhuocun/jira_vertx_server/routes/MainRouter.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/zhuocun/jira_vertx_server/constants/TableName.java
+/Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/zhuocun/jira_vertx_server/modules/AppModule.java
 /Users/zhuocun/GitHub/jira-vert.x-server/src/main/java/zhuocun/jira_vertx_server/constants/MyError.java
