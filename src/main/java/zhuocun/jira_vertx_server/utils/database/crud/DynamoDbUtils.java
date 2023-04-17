@@ -107,7 +107,7 @@ public class DynamoDbUtils {
             } else {
                 resultPromise.complete(null);
             }
-        } catch (Exception e) {
+        } catch (DynamoDbException e) {
             resultPromise.fail(e);
         }
 
@@ -131,7 +131,7 @@ public class DynamoDbUtils {
             } else {
                 resultPromise.complete(null);
             }
-        } catch (Exception e) {
+        } catch (DynamoDbException e) {
             resultPromise.fail(e);
         }
 
@@ -164,7 +164,7 @@ public class DynamoDbUtils {
             } else {
                 resultPromise.complete(null);
             }
-        } catch (Exception e) {
+        } catch (DynamoDbException e) {
             resultPromise.fail(e);
         }
 
@@ -188,9 +188,13 @@ public class DynamoDbUtils {
 
         try {
             ScanResponse response = dynamoDBClient.scan(scanRequest);
-            JsonObject item = new JsonObject();
-            response.items().get(0).forEach((key, value) -> item.put(key, value.s()));
-            resultPromise.complete(item);
+            if (!response.items().isEmpty()) {
+                JsonObject item = new JsonObject();
+                response.items().get(0).forEach((key, value) -> item.put(key, value.s()));
+                resultPromise.complete(item);
+            } else {
+                resultPromise.complete(null);
+            }
         } catch (DynamoDbException e) {
             resultPromise.fail(e);
         }
