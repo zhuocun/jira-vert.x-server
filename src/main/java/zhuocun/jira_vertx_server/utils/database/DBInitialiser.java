@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database.initialiser;
+package zhuocun.jira_vertx_server.utils.database;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 import zhuocun.jira_vertx_server.constants.MyError;
-import zhuocun.jira_vertx_server.utils.database.DBOperation;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -20,22 +19,21 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 
 @Slf4j
-public class DBInitialiserImpl implements DBInitialiser {
+public class DBInitialiser {
 
     private PgPool postgresPool;
     private DynamoDbClient dynamoDBClient;
-    private static DBInitialiserImpl dbInitialiser;
+    private static DBInitialiser dbInitialiser;
 
-    private DBInitialiserImpl() {}
+    private DBInitialiser() {}
 
-    public static DBInitialiserImpl getDbInitialiser() {
+    public static DBInitialiser getDbInitialiser() {
         if (dbInitialiser == null) {
-            dbInitialiser = new DBInitialiserImpl();
+            dbInitialiser = new DBInitialiser();
         }
         return dbInitialiser;
     }
 
-    @Override
     public Pool getDbPool() {
         switch (DBOperation.getDBType()) {
             case DatabaseType.POSTGRESQL:
@@ -49,12 +47,10 @@ public class DBInitialiserImpl implements DBInitialiser {
         }
     }
 
-    @Override
     public DynamoDbClient getDynamoDBClient() {
         return dynamoDBClient;
     }
 
-    @Override
     public Future<Object> initDB(Vertx vertx) {
         EnvConfig config = new EnvConfig();
         String dbType = DBOperation.getDBType();

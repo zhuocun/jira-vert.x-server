@@ -4,13 +4,13 @@ import lombok.Data;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 import zhuocun.jira_vertx_server.constants.MyError;
-import zhuocun.jira_vertx_server.utils.database.initialiser.DBInitialiserImpl;
+import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 @Data
 public class DBUtilsFactory {
 
-    private DBInitialiserImpl dbInitialiser = DBInitialiserImpl.getDbInitialiser();
+    private DBInitialiser dbInitialiser = DBInitialiser.getDbInitialiser();
     private static DBUtilsFactory dbUtilsFactory;
 
     private DBUtilsFactory() {}
