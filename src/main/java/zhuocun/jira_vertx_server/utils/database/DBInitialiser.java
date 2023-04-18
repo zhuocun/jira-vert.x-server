@@ -99,7 +99,6 @@ public class DBInitialiser {
 
             dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
-            System.out.println(dynamoDBClient);
             log.info("Connected to DynamoDB");
             return Future.succeededFuture();
         } catch (DynamoDbException e) {
