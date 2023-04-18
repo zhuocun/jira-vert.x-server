@@ -20,13 +20,13 @@ import zhuocun.jira_vertx_server.utils.database.providers.DynamoClientProvider;
 import zhuocun.jira_vertx_server.utils.database.providers.PoolProvider;
 import zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
-public class DBModule extends AbstractModule {
+public class ServerModule extends AbstractModule {
 
     private final EnvConfig envConfig;
 
     private final DBInitialiser dbInitialiser;
 
-    public DBModule(EnvConfig envConfig, DBInitialiser dbInitialiser) {
+    public ServerModule(EnvConfig envConfig, DBInitialiser dbInitialiser) {
         this.envConfig = envConfig;
         this.dbInitialiser = dbInitialiser;
     }

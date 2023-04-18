@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import zhuocun.jira_vertx_server.config.EnvConfig;
-import zhuocun.jira_vertx_server.modules.DBModule;
+import zhuocun.jira_vertx_server.modules.ServerModule;
 import zhuocun.jira_vertx_server.modules.AppModule;
 import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 
@@ -16,10 +16,12 @@ public class MainVerticle extends AbstractVerticle {
         Injector appInjector = Guice.createInjector(new AppModule());
         DBInitialiser dbInitialiser = appInjector.getInstance(DBInitialiser.class);
         EnvConfig envConfig = appInjector.getInstance(EnvConfig.class);
+        DBVerticle dbVerticle = appInjector.getInstance(DBVerticle.class);
 
-        vertx.deployVerticle(new DBVerticle(dbInitialiser)).onSuccess(v -> {
-            Injector dbInjector = Guice.createInjector(new DBModule(envConfig, dbInitialiser));
-            ServerVerticle serverVerticle = dbInjector.getInstance(ServerVerticle.class);
+        vertx.deployVerticle(dbVerticle).onSuccess(v -> {
+            Injector serverInjector =
+                    Guice.createInjector(new ServerModule(envConfig, dbInitialiser));
+            ServerVerticle serverVerticle = serverInjector.getInstance(ServerVerticle.class);
 
             vertx.deployVerticle(serverVerticle).onSuccess(res -> startPromise.complete())
                     .onFailure(startPromise::fail);
