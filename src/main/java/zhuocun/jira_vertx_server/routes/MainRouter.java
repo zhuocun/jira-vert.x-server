@@ -1,5 +1,6 @@
 package zhuocun.jira_vertx_server.routes;
 
+import com.google.inject.Inject;
 // import io.vertx.ext.web.handler.JWTAuthHandler;
 import io.vertx.core.Vertx;
 // import io.vertx.core.buffer.Buffer;
@@ -10,7 +11,12 @@ import io.vertx.ext.web.Router;
 
 public class MainRouter {
 
-    private static UserRouter userRouter = new UserRouter();
+    private final UserRouter userRouter;
+
+    @Inject
+    public MainRouter(UserRouter userRouter) {
+        this.userRouter = userRouter;
+    }
 
     public Router create(Vertx vertx) {
         Router mainRouter = Router.router(vertx);

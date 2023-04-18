@@ -1,5 +1,6 @@
 package zhuocun.jira_vertx_server.utils.database;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -27,9 +28,15 @@ public class DBInitialiser {
 
     private PgPool postgresPool;
     private DynamoDbClient dynamoDBClient;
+    private final EnvConfig envConfig;
+
+    @Inject
+    public DBInitialiser(EnvConfig envConfig) {
+        this.envConfig = envConfig;
+    }
 
     public Pool getDbPool() {
-        switch (DBOperation.getDBType()) {
+        switch (envConfig.getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return postgresPool;
             case DatabaseType.MONGO_DB:
@@ -42,15 +49,14 @@ public class DBInitialiser {
     }
 
     public Future<Object> initDB(Vertx vertx) {
-        EnvConfig config = new EnvConfig();
-        String dbType = DBOperation.getDBType();
+        String dbType = envConfig.getDBType();
         switch (dbType) {
             case DatabaseType.POSTGRESQL:
-                return initPostgreSQL(config, vertx);
+                return initPostgreSQL(envConfig, vertx);
             case DatabaseType.MONGO_DB:
-                return initMongoDB(config);
+                return initMongoDB(envConfig);
             case DatabaseType.DYNAMO_DB:
-                return initDynamoDB(config);
+                return initDynamoDB(envConfig);
             default:
                 return Future.failedFuture(MyError.INVALID_DB + dbType);
         }
@@ -93,6 +99,7 @@ public class DBInitialiser {
 
             dynamoDBClient = DynamoDbClient.builder().region(Region.of(region))
                     .credentialsProvider(credentialsProvider).build();
+            System.out.println(dynamoDBClient);
             log.info("Connected to DynamoDB");
             return Future.succeededFuture();
         } catch (DynamoDbException e) {

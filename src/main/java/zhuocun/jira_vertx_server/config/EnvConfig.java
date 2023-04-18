@@ -23,4 +23,8 @@ public class EnvConfig {
     public String getProperty(String key) {
         return properties.getProperty(key);
     }
+
+    public String getDBType() {
+        return getProperty("DATABASE");
+    }
 }

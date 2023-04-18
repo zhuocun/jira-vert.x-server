@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import com.google.inject.Inject;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.Pool;
@@ -13,6 +14,7 @@ public class PostgresUtils implements AbstractDbUtils {
 
     private final Pool postgresPool;
 
+    @Inject
     public PostgresUtils(Pool postgresPool) {
         this.postgresPool = postgresPool;
     }

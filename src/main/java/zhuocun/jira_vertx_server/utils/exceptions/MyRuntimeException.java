@@ -4,12 +4,16 @@ import java.io.IOException;
 
 public class MyRuntimeException extends RuntimeException {
 
-    public MyRuntimeException(String string, IOException e) {
-        super(string, e);
+    public MyRuntimeException(String msg, IOException e) {
+        super(msg, e);
     }
 
-    public MyRuntimeException(String string) {
-        super(string);
+    public MyRuntimeException(String msg) {
+        super(msg);
+    }
+
+    public MyRuntimeException(String msg, Exception e) {
+        super(msg, e);
     }
 
 }

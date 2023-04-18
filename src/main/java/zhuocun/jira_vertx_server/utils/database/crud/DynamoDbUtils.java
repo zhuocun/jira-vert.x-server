@@ -23,12 +23,14 @@ import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 import com.fasterxml.uuid.Generators;
+import com.google.inject.Inject;
 import zhuocun.jira_vertx_server.utils.database.Expression;
 
 public class DynamoDBUtils implements AbstractDbUtils {
 
     private final DynamoDbClient dynamoDBClient;
 
+    @Inject
     public DynamoDBUtils(DynamoDbClient dynamoDBClient) {
         this.dynamoDBClient = dynamoDBClient;
     }

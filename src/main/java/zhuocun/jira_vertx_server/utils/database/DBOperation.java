@@ -1,49 +1,63 @@
 package zhuocun.jira_vertx_server.utils.database;
 
 import java.util.List;
-import zhuocun.jira_vertx_server.config.EnvConfig;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import zhuocun.jira_vertx_server.constants.MyError;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import lombok.experimental.UtilityClass;
 import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
 
-@UtilityClass
-public final class DBOperation {
+@Singleton
+public class DBOperation {
 
-    private AbstractDbUtils dbUtils;
+    private final AbstractDbUtils dbUtils;
 
-    public static Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
+    @Inject
+    public DBOperation(AbstractDbUtils dbUtils) {
+        this.dbUtils = dbUtils;
+    }
+
+    public Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.findOne(reqBody, tableName);
     }
 
-    public static Future<Void> createItem(JsonObject item, String tableName) {
+    public Future<Void> createItem(JsonObject item, String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.createItem(item, tableName);
     }
 
-    public static Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
+    public Future<List<JsonObject>> find(JsonObject reqBody, String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.find(reqBody, tableName);
     }
 
-    public static Future<JsonObject> findById(String id, String tableName) {
+    public Future<JsonObject> findById(String id, String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.findById(id, tableName);
     }
 
-    public static Future<JsonObject> findByIdAndDelete(String id, String tableName) {
+    public Future<JsonObject> findByIdAndDelete(String id, String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.findByIdAndDelete(id, tableName);
     }
 
-    public static Future<JsonObject> findByIdAndUpdate(String id, JsonObject update,
+    public Future<JsonObject> findByIdAndUpdate(String id, JsonObject update,
             String tableName) {
+        if (dbUtils == null) {
+            return Future.failedFuture(MyError.DB_UTILS_NULL);
+        }
         return dbUtils.findByIdAndUpdate(id, update, tableName);
-    }
-
-    public static String getDBType() {
-        EnvConfig config = new EnvConfig();
-        return config.getProperty("DATABASE");
-    }
-
-    public static void setDbUtils(AbstractDbUtils dbUtils) {
-        DBOperation.dbUtils = dbUtils;
     }
 }

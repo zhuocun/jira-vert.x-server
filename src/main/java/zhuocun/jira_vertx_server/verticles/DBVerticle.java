@@ -1,14 +1,12 @@
 package zhuocun.jira_vertx_server.verticles;
 
 import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
-import zhuocun.jira_vertx_server.utils.database.DBOperation;
-import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
-import zhuocun.jira_vertx_server.utils.database.crud.DBUtilsFactory;
 import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.sqlclient.Pool;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 
 public class DBVerticle extends AbstractVerticle {
@@ -19,15 +17,18 @@ public class DBVerticle extends AbstractVerticle {
 
     private final DBInitialiser dbInitialiser;
 
+    private final EnvConfig envConfig;
+
     @Inject
-    public DBVerticle(DBInitialiser dbInitialiser) {
+    public DBVerticle(DBInitialiser dbInitialiser, EnvConfig envConfig) {
         this.dbInitialiser = dbInitialiser;
+        this.envConfig = envConfig;
     }
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         dbInitialiser.initDB(vertx).onSuccess(result -> {
-            switch (DBOperation.getDBType()) {
+            switch (envConfig.getDBType()) {
                 case DatabaseType.POSTGRESQL:
                     dbPool = dbInitialiser.getDbPool();
                     break;
@@ -39,8 +40,6 @@ public class DBVerticle extends AbstractVerticle {
                 default:
                     break;
             }
-            AbstractDbUtils dbUtils = DBUtilsFactory.createDBUtils(dbPool, dynamoDBClient);
-            DBOperation.setDbUtils(dbUtils);
             startPromise.complete();
         }).onFailure(startPromise::fail);
     }
