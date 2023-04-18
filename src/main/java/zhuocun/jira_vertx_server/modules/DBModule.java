@@ -16,7 +16,7 @@ import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.DynamoDBUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.MongoDBUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.PostgresUtils;
-import zhuocun.jira_vertx_server.utils.database.providers.DynamoDBClientProvider;
+import zhuocun.jira_vertx_server.utils.database.providers.DynamoClientProvider;
 import zhuocun.jira_vertx_server.utils.database.providers.PoolProvider;
 import zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
@@ -50,7 +50,7 @@ public class DBModule extends AbstractModule {
                 bind(AbstractDbUtils.class).to(MongoDBUtils.class);
                 break;
             case DatabaseType.DYNAMO_DB:
-                bind(DynamoDbClient.class).toProvider(DynamoDBClientProvider.class);
+                bind(DynamoDbClient.class).toProvider(DynamoClientProvider.class);
                 bind(AbstractDbUtils.class).to(DynamoDBUtils.class);
                 break;
             default:

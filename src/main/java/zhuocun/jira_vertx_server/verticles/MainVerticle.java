@@ -17,11 +17,10 @@ public class MainVerticle extends AbstractVerticle {
         DBInitialiser dbInitialiser = appInjector.getInstance(DBInitialiser.class);
         EnvConfig envConfig = appInjector.getInstance(EnvConfig.class);
 
-        dbInitialiser.initDB(vertx).onSuccess(v -> {
-            Injector injector = Guice.createInjector(new DBModule(envConfig, dbInitialiser));
-            ServerVerticle serverVerticle = injector.getInstance(ServerVerticle.class);
+        vertx.deployVerticle(new DBVerticle(dbInitialiser)).onSuccess(v -> {
+            Injector dbInjector = Guice.createInjector(new DBModule(envConfig, dbInitialiser));
+            ServerVerticle serverVerticle = dbInjector.getInstance(ServerVerticle.class);
 
-            // Deploy the DBVerticle
             vertx.deployVerticle(serverVerticle).onSuccess(res -> startPromise.complete())
                     .onFailure(startPromise::fail);
         }).onFailure(startPromise::fail);
