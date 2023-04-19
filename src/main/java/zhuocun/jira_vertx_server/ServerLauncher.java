@@ -9,7 +9,6 @@ public class ServerLauncher {
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        // Deploy the MainVerticle
         vertx.deployVerticle(new MainVerticle(), ar -> {
             if (ar.succeeded()) {
                 log.info("MainVerticle deployment successful.");
