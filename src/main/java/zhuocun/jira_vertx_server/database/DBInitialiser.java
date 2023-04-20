@@ -70,7 +70,7 @@ public class DBInitialiser {
                 .setUser(config.getProperty("POSTGRES_USER"))
                 .setPassword(config.getProperty("POSTGRES_PASSWORD")).setSslMode(SslMode.REQUIRE)
                 .setPemTrustOptions(new PemTrustOptions()
-                        .addCertPath("src/main/resources/certs/global-bundle.pem"));
+                        .addCertPath(config.getProperty("POSTGRES_CERT_PATH")));
         PoolOptions poolOptions = new PoolOptions().setMaxSize(10);
         postgresPool = PgPool.pool(vertx, connectOptions, poolOptions);
         return postgresPool.getConnection().compose(conn -> {
