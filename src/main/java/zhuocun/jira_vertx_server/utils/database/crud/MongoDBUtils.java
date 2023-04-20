@@ -5,7 +5,7 @@ import java.util.List;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
-public class MongoDBUtils implements AbstractDbUtils {
+public class MongoDBUtils implements IDBUtils {
 
     // Replace this with your MongoDB client initialization
     // static MongoClient mongoClient = ...

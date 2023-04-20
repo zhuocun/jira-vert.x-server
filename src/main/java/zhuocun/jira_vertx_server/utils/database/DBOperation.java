@@ -5,15 +5,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
+import zhuocun.jira_vertx_server.utils.database.crud.IDBUtils;
 
 @Singleton
 public class DBOperation {
 
-    private final AbstractDbUtils dbUtils;
+    private final IDBUtils dbUtils;
 
     @Inject
-    public DBOperation(AbstractDbUtils dbUtils) {
+    public DBOperation(IDBUtils dbUtils) {
         this.dbUtils = dbUtils;
     }
 

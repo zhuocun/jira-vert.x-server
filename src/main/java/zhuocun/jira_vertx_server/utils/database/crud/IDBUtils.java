@@ -5,7 +5,7 @@ import java.util.List;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
-public abstract interface AbstractDbUtils {
+public abstract interface IDBUtils {
 
     public abstract Future<JsonObject> findOne(JsonObject reqBody, String tableName);
 

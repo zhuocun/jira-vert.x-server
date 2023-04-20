@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Tuple;
 
-public class PostgresUtils implements AbstractDbUtils {
+public class PostgresUtils implements IDBUtils {
 
     private final Pool postgresPool;
 

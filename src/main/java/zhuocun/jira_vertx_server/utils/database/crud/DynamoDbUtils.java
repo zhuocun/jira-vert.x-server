@@ -26,7 +26,7 @@ import com.fasterxml.uuid.Generators;
 import com.google.inject.Inject;
 import zhuocun.jira_vertx_server.utils.database.Expression;
 
-public class DynamoDBUtils implements AbstractDbUtils {
+public class DynamoDBUtils implements IDBUtils {
 
     private final DynamoDbClient dynamoDBClient;
 

@@ -12,7 +12,7 @@ import zhuocun.jira_vertx_server.routes.UserRouter;
 import zhuocun.jira_vertx_server.services.UserService;
 import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 import zhuocun.jira_vertx_server.utils.database.DBOperation;
-import zhuocun.jira_vertx_server.utils.database.crud.AbstractDbUtils;
+import zhuocun.jira_vertx_server.utils.database.crud.IDBUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.DynamoDBUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.MongoDBUtils;
 import zhuocun.jira_vertx_server.utils.database.crud.PostgresUtils;
@@ -44,14 +44,14 @@ public class ServerModule extends AbstractModule {
         switch (envConfig.getDBType()) {
             case DatabaseType.POSTGRESQL:
                 bind(Pool.class).toProvider(PoolProvider.class);
-                bind(AbstractDbUtils.class).to(PostgresUtils.class);
+                bind(IDBUtils.class).to(PostgresUtils.class);
                 break;
             case DatabaseType.MONGO_DB:
-                bind(AbstractDbUtils.class).to(MongoDBUtils.class);
+                bind(IDBUtils.class).to(MongoDBUtils.class);
                 break;
             case DatabaseType.DYNAMO_DB:
                 bind(DynamoDbClient.class).toProvider(DynamoClientProvider.class);
-                bind(AbstractDbUtils.class).to(DynamoDBUtils.class);
+                bind(IDBUtils.class).to(DynamoDBUtils.class);
                 break;
             default:
                 throw new MyRuntimeException(MyError.INVALID_DB);
