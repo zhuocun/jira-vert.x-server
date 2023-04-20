@@ -88,6 +88,7 @@ public class PostgresUtils implements AbstractDbUtils {
                 .map(res -> res.iterator().next().toJson());
     }
 
+    @Override
     public Future<JsonObject> findOne(JsonObject reqBody, String tableName) {
         String whereClauses = IntStream.rangeClosed(1, reqBody.size())
                 .mapToObj(
