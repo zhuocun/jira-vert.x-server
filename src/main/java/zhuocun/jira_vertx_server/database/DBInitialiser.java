@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database;
+package zhuocun.jira_vertx_server.database;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

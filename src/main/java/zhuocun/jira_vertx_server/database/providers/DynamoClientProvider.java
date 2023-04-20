@@ -1,9 +1,9 @@
-package zhuocun.jira_vertx_server.utils.database.providers;
+package zhuocun.jira_vertx_server.database.providers;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
+import zhuocun.jira_vertx_server.database.DBInitialiser;
 
 public class DynamoClientProvider implements Provider<DynamoDbClient> {
 

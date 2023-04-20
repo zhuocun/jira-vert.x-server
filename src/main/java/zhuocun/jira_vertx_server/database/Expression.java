@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database;
+package zhuocun.jira_vertx_server.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;

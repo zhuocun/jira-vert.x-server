@@ -3,7 +3,7 @@ package zhuocun.jira_vertx_server.verticles;
 import com.google.inject.Inject;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
+import zhuocun.jira_vertx_server.database.DBInitialiser;
 
 public class DBVerticle extends AbstractVerticle {
 

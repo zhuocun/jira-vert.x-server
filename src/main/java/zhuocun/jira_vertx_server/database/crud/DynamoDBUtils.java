@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database.crud;
+package zhuocun.jira_vertx_server.database.crud;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,9 +22,9 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
+import zhuocun.jira_vertx_server.database.Expression;
 import com.fasterxml.uuid.Generators;
 import com.google.inject.Inject;
-import zhuocun.jira_vertx_server.utils.database.Expression;
 
 public class DynamoDBUtils implements IDBUtils {
 

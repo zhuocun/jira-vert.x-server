@@ -2,7 +2,7 @@ package zhuocun.jira_vertx_server.modules;
 
 import com.google.inject.AbstractModule;
 import zhuocun.jira_vertx_server.config.EnvConfig;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
+import zhuocun.jira_vertx_server.database.DBInitialiser;
 
 public class AppModule extends AbstractModule {
 

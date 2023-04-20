@@ -1,11 +1,11 @@
-package zhuocun.jira_vertx_server.utils.database;
+package zhuocun.jira_vertx_server.database;
 
 import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import zhuocun.jira_vertx_server.utils.database.crud.IDBUtils;
+import zhuocun.jira_vertx_server.database.crud.IDBUtils;
 
 @Singleton
 public class DBOperation {
@@ -37,8 +37,7 @@ public class DBOperation {
         return dbUtils.findByIdAndDelete(id, tableName);
     }
 
-    public Future<JsonObject> findByIdAndUpdate(String id, JsonObject update,
-            String tableName) {
+    public Future<JsonObject> findByIdAndUpdate(String id, JsonObject update, String tableName) {
         return dbUtils.findByIdAndUpdate(id, update, tableName);
     }
 }

@@ -4,8 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 
 import zhuocun.jira_vertx_server.constants.TableName;
-import zhuocun.jira_vertx_server.utils.database.DBOperation;
-
+import zhuocun.jira_vertx_server.database.DBOperation;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.google.inject.Inject;

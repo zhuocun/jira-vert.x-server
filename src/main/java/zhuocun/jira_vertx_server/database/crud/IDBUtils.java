@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.utils.database.crud;
+package zhuocun.jira_vertx_server.database.crud;
 
 import java.util.List;
 

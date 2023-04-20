@@ -5,9 +5,9 @@ import com.google.inject.Injector;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import zhuocun.jira_vertx_server.config.EnvConfig;
+import zhuocun.jira_vertx_server.database.DBInitialiser;
 import zhuocun.jira_vertx_server.modules.ServerModule;
 import zhuocun.jira_vertx_server.modules.AppModule;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
 
 public class MainVerticle extends AbstractVerticle {
 

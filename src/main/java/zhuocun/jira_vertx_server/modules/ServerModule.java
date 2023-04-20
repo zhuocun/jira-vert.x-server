@@ -7,17 +7,17 @@ import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
 import zhuocun.jira_vertx_server.constants.MyError;
 import zhuocun.jira_vertx_server.controllers.UserController;
+import zhuocun.jira_vertx_server.database.DBInitialiser;
+import zhuocun.jira_vertx_server.database.DBOperation;
+import zhuocun.jira_vertx_server.database.crud.DynamoDBUtils;
+import zhuocun.jira_vertx_server.database.crud.IDBUtils;
+import zhuocun.jira_vertx_server.database.crud.MongoDBUtils;
+import zhuocun.jira_vertx_server.database.crud.PostgresUtils;
+import zhuocun.jira_vertx_server.database.providers.DynamoClientProvider;
+import zhuocun.jira_vertx_server.database.providers.PoolProvider;
 import zhuocun.jira_vertx_server.routes.MainRouter;
 import zhuocun.jira_vertx_server.routes.UserRouter;
 import zhuocun.jira_vertx_server.services.UserService;
-import zhuocun.jira_vertx_server.utils.database.DBInitialiser;
-import zhuocun.jira_vertx_server.utils.database.DBOperation;
-import zhuocun.jira_vertx_server.utils.database.crud.IDBUtils;
-import zhuocun.jira_vertx_server.utils.database.crud.DynamoDBUtils;
-import zhuocun.jira_vertx_server.utils.database.crud.MongoDBUtils;
-import zhuocun.jira_vertx_server.utils.database.crud.PostgresUtils;
-import zhuocun.jira_vertx_server.utils.database.providers.DynamoClientProvider;
-import zhuocun.jira_vertx_server.utils.database.providers.PoolProvider;
 import zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 public class ServerModule extends AbstractModule {
