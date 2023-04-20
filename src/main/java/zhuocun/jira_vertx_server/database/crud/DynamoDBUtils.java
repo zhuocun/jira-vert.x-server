@@ -22,7 +22,8 @@ import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
-import zhuocun.jira_vertx_server.database.Expression;
+import zhuocun.jira_vertx_server.interfaces.IDBUtils;
+import zhuocun.jira_vertx_server.utils.DynamoExpression;
 import com.fasterxml.uuid.Generators;
 import com.google.inject.Inject;
 
@@ -70,7 +71,7 @@ public class DynamoDBUtils implements IDBUtils {
         ScanRequest.Builder scanRequestBuilder = ScanRequest.builder().tableName(tableName);
 
         if (!reqBody.fieldNames().isEmpty()) {
-            Expression expression = Expression.buildExpression(reqBody);
+            DynamoExpression expression = DynamoExpression.buildExpression(reqBody);
             scanRequestBuilder.expressionAttributeNames(expression.getExpressionAttributeNames())
                     .expressionAttributeValues(expression.getExpressionAttributeValues())
                     .filterExpression(expression.getFilterExpression());
@@ -151,7 +152,7 @@ public class DynamoDBUtils implements IDBUtils {
 
         updateFields.remove("_id");
 
-        Expression expression = Expression.buildExpression(updateFields);
+        DynamoExpression expression = DynamoExpression.buildExpression(updateFields);
         String updateExpression = expression.getFilterExpression().replace(" AND ", ", ");
 
         UpdateItemRequest updateItemRequest = UpdateItemRequest.builder().tableName(tableName)
@@ -186,7 +187,7 @@ public class DynamoDBUtils implements IDBUtils {
         ScanRequest.Builder scanRequestBuilder = ScanRequest.builder().tableName(tableName);
 
         if (!reqBody.fieldNames().isEmpty()) {
-            Expression expression = Expression.buildExpression(reqBody);
+            DynamoExpression expression = DynamoExpression.buildExpression(reqBody);
             scanRequestBuilder.expressionAttributeNames(expression.getExpressionAttributeNames())
                     .expressionAttributeValues(expression.getExpressionAttributeValues())
                     .filterExpression(expression.getFilterExpression());

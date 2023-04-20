@@ -1,11 +1,11 @@
-package zhuocun.jira_vertx_server.database;
+package zhuocun.jira_vertx_server.utils;
 
 import java.util.List;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import zhuocun.jira_vertx_server.database.crud.IDBUtils;
+import zhuocun.jira_vertx_server.interfaces.IDBUtils;
 
 @Singleton
 public class DBOperation {

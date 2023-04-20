@@ -1,4 +1,4 @@
-package zhuocun.jira_vertx_server.database;
+package zhuocun.jira_vertx_server.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,12 +11,12 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 @AllArgsConstructor
 @Getter
-public class Expression {
+public class DynamoExpression {
     private final Map<String, String> expressionAttributeNames;
     private final Map<String, AttributeValue> expressionAttributeValues;
     private final String filterExpression;
 
-    public static Expression buildExpression(JsonObject attributeFields) {
+    public static DynamoExpression buildExpression(JsonObject attributeFields) {
         Map<String, String> expressionAttributeNames = new HashMap<>();
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
         List<String> expressions = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Expression {
             index++;
         }
 
-        return new Expression(expressionAttributeNames, expressionAttributeValues,
+        return new DynamoExpression(expressionAttributeNames, expressionAttributeValues,
                 String.join(" AND ", expressions));
     }
 }

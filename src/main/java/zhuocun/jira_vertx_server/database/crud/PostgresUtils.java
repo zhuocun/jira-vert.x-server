@@ -9,6 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.Pool;
 import io.vertx.sqlclient.Tuple;
+import zhuocun.jira_vertx_server.interfaces.IDBUtils;
 
 public class PostgresUtils implements IDBUtils {
 

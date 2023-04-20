@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import zhuocun.jira_vertx_server.interfaces.IDBUtils;
 
 public class MongoDBUtils implements IDBUtils {
 
