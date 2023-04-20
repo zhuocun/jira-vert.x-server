@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
-import zhuocun.jira_vertx_server.constants.MyError;
+import zhuocun.jira_vertx_server.constants.MyErrorMsg;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -58,7 +58,7 @@ public class DBInitialiser {
             case DatabaseType.DYNAMODB:
                 return initDynamoDB(envConfig);
             default:
-                return Future.failedFuture(MyError.INVALID_DB + dbType);
+                return Future.failedFuture(MyErrorMsg.INVALID_DB + dbType);
         }
     }
 

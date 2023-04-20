@@ -5,7 +5,7 @@ import io.vertx.sqlclient.Pool;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import zhuocun.jira_vertx_server.config.EnvConfig;
 import zhuocun.jira_vertx_server.constants.DatabaseType;
-import zhuocun.jira_vertx_server.constants.MyError;
+import zhuocun.jira_vertx_server.constants.MyErrorMsg;
 import zhuocun.jira_vertx_server.controllers.UserController;
 import zhuocun.jira_vertx_server.database.DBInitialiser;
 import zhuocun.jira_vertx_server.database.crud.DynamoDBUtils;
@@ -52,7 +52,7 @@ public class ServerModule extends AbstractModule {
                 bind(IDBUtils.class).to(DynamoDBUtils.class);
                 break;
             default:
-                throw new MyRuntimeException(MyError.INVALID_DB);
+                throw new MyRuntimeException(MyErrorMsg.INVALID_DB);
         }
     }
 

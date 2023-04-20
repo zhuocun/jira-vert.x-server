@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import zhuocun.jira_vertx_server.constants.MyError;
+import zhuocun.jira_vertx_server.constants.MyErrorMsg;
 import zhuocun.jira_vertx_server.services.UserService;
 
 @Singleton
@@ -22,7 +22,8 @@ public class UserController {
                                 user -> ctx.response().setStatusCode(200).end(user.encode()))
                                 .onFailure(err -> ctx.response().setStatusCode(404)
                                                 .end(new JsonObject()
-                                                                .put(MyError.KEY, "User not found")
+                                                                .put(MyErrorMsg.KEY,
+                                                                                "User not found")
                                                                 .encode()));
         }
 
@@ -35,8 +36,8 @@ public class UserController {
                                                                 .encode()))
                                 .onFailure(err -> ctx.response().setStatusCode(400).end(
                                                 new JsonObject()
-                                                                .put(MyError.KEY,
-                                                                                MyError.BAD_REQUEST)
+                                                                .put(MyErrorMsg.KEY,
+                                                                                MyErrorMsg.BAD_REQUEST)
                                                                 .encode()));
         }
 
@@ -46,7 +47,7 @@ public class UserController {
                                                 new JsonObject().put("members", members).encode()))
                                 .onFailure(err -> ctx.response().setStatusCode(404).end(
                                                 new JsonObject()
-                                                                .put(MyError.KEY,
+                                                                .put(MyErrorMsg.KEY,
                                                                                 "Members not found")
                                                                 .encode()));
         }
@@ -64,8 +65,8 @@ public class UserController {
                                                 .encode()))
                                 .onFailure(err -> ctx.response().setStatusCode(400).end(
                                                 new JsonObject()
-                                                                .put(MyError.KEY,
-                                                                                MyError.BAD_REQUEST)
+                                                                .put(MyErrorMsg.KEY,
+                                                                                MyErrorMsg.BAD_REQUEST)
                                                                 .encode()));
         }
 
