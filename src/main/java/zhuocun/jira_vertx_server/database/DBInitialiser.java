@@ -39,9 +39,9 @@ public class DBInitialiser {
         switch (envConfig.getDBType()) {
             case DatabaseType.POSTGRESQL:
                 return postgresPool;
-            case DatabaseType.MONGO_DB:
+            case DatabaseType.MONGODB:
                 return null;
-            case DatabaseType.DYNAMO_DB:
+            case DatabaseType.DYNAMODB:
                 return null;
             default:
                 return null;
@@ -53,9 +53,9 @@ public class DBInitialiser {
         switch (dbType) {
             case DatabaseType.POSTGRESQL:
                 return initPostgreSQL(envConfig, vertx);
-            case DatabaseType.MONGO_DB:
+            case DatabaseType.MONGODB:
                 return initMongoDB(envConfig);
-            case DatabaseType.DYNAMO_DB:
+            case DatabaseType.DYNAMODB:
                 return initDynamoDB(envConfig);
             default:
                 return Future.failedFuture(MyError.INVALID_DB + dbType);

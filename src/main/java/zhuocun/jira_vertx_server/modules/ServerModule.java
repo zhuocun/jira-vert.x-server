@@ -46,10 +46,10 @@ public class ServerModule extends AbstractModule {
                 bind(Pool.class).toProvider(PoolProvider.class);
                 bind(IDBUtils.class).to(PostgresUtils.class);
                 break;
-            case DatabaseType.MONGO_DB:
+            case DatabaseType.MONGODB:
                 bind(IDBUtils.class).to(MongoDBUtils.class);
                 break;
-            case DatabaseType.DYNAMO_DB:
+            case DatabaseType.DYNAMODB:
                 bind(DynamoDbClient.class).toProvider(DynamoClientProvider.class);
                 bind(IDBUtils.class).to(DynamoDBUtils.class);
                 break;
