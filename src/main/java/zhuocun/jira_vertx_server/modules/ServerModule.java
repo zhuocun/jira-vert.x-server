@@ -17,7 +17,6 @@ import zhuocun.jira_vertx_server.interfaces.IDBUtils;
 import zhuocun.jira_vertx_server.routes.MainRouter;
 import zhuocun.jira_vertx_server.routes.UserRouter;
 import zhuocun.jira_vertx_server.services.UserService;
-import zhuocun.jira_vertx_server.utils.DBOperation;
 import zhuocun.jira_vertx_server.utils.exceptions.MyRuntimeException;
 
 public class ServerModule extends AbstractModule {
@@ -34,7 +33,6 @@ public class ServerModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(DBInitialiser.class).toInstance(dbInitialiser);
-        bind(DBOperation.class).asEagerSingleton();
         bind(UserService.class).asEagerSingleton();
         bind(UserController.class).asEagerSingleton();
         bind(UserRouter.class).asEagerSingleton();
