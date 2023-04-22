@@ -23,7 +23,6 @@ import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 import zhuocun.jira_vertx_server.interfaces.IDBUtils;
-import zhuocun.jira_vertx_server.utils.DynamoExpression;
 import com.fasterxml.uuid.Generators;
 import com.google.inject.Inject;
 
